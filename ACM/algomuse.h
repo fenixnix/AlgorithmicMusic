@@ -5,6 +5,7 @@
 #include <time.h>
 #include <stdio.h>
 #include <iostream>
+#include "nmotivictune.h"
 
 using namespace std;
 
@@ -12,15 +13,14 @@ class AlgoMuse
 {
 public:
   AlgoMuse();
-
-  void play_notes();
-
   void PlayWindChime();
   void PlayGreekMusic();
   void PlayMozartDiceGame();
+  void PlayMotivic();
 private:
   int octave = 24;
-
+  NMidiAuther midi;
+  NMotivicTune motivic;
 };
 
 #endif // ALGOMUSE_H

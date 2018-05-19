@@ -3,7 +3,6 @@
 
 #include <QMainWindow>
 #include "ACM/algomuse.h"
-#include "ACM/nmidiauther.h"
 
 namespace Ui {
   class MainWindow;
@@ -21,6 +20,8 @@ private slots:
   void on_btnPlay3_clicked();
 
   void on_btnMozart_clicked();
+
+  void on_actionbeginning_triggered();
 
 private:
   Ui::MainWindow *ui;

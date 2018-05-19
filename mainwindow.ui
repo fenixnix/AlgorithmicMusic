@@ -47,9 +47,22 @@
      <x>0</x>
      <y>0</y>
      <width>400</width>
-     <height>17</height>
+     <height>22</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>File</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menuMotivic">
+    <property name="title">
+     <string>Motivic</string>
+    </property>
+    <addaction name="actionbeginning"/>
+   </widget>
+   <addaction name="menuFile"/>
+   <addaction name="menuMotivic"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
@@ -60,6 +73,11 @@
    </attribute>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
+  <action name="actionbeginning">
+   <property name="text">
+    <string>beginning</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>

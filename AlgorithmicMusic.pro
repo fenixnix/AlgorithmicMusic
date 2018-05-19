@@ -27,7 +27,9 @@ SOURCES += \
         main.cpp \
         mainwindow.cpp \
     ACM/algomuse.cpp \
-    ACM/nmidiauther.cpp
+    ACM/nmidiauther.cpp \
+    ACM/ntune.cpp \
+    ACM/nmotivictune.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -35,7 +37,9 @@ HEADERS += \
     ACM/algomuse.h \
     ACM/pitchdefine.h \
     ACM/mozartdicetable.h \
-    ACM/nmidiauther.h
+    ACM/nmidiauther.h \
+    ACM/ntune.h \
+    ACM/nmotivictune.h
 
 FORMS += \
         mainwindow.ui

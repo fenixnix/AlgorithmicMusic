@@ -6,7 +6,6 @@ MainWindow::MainWindow(QWidget *parent) :
   ui(new Ui::MainWindow)
 {
   ui->setupUi(this);
-  NMidiAuther::SelfTest();
 }
 
 MainWindow::~MainWindow()
@@ -22,4 +21,9 @@ void MainWindow::on_btnPlay3_clicked()
 void MainWindow::on_btnMozart_clicked()
 {
   muse.PlayMozartDiceGame();
+}
+
+void MainWindow::on_actionbeginning_triggered()
+{
+  muse.PlayMotivic();
 }

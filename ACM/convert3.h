@@ -5,83 +5,9 @@ This produces a format 0 midi file */
 #include <iostream>
 #include <fstream>
 
-void open_midfiles (void);
-void play (unsigned long int l, int c, int p, int v);
-void convert_hexbyte_varbyte (unsigned char byte[4],
-unsigned char varbyte[4]);
-void convertlong_4hexs (unsigned long d, unsigned char byte[4]);
-void close_midfiles (void);
-void general_midi (void);
-void program_setup (void);
-int midiOctave (int midinumber);
-int midiNote (int midinumber);
-void printit (int midinumber);
-
 int program_number[8];
 unsigned long place = 0L;
 FILE *fp1;
-
-void writeByte(unsigned char byteData)
-{
-  int tmp = byteData;
-  fwrite (&tmp, 1, 1, fp1);
-  ++place;
-}
-
-void program_setup (void)
-{
-  for (int j = 0; j < 8; ++j)
-    {
-      writeByte(0);
-      writeByte(j+192);
-      writeByte(program_number[j]);
-    }
-}
-
-void general_midi (void)
-{
-  unsigned char buffer[] = {0,240,5,126,127,9,1,247};
-  fwrite(buffer,1,sizeof(buffer),fp1);
-  place += sizeof(buffer);
-}
-
-void createDatTail(){
-  unsigned char end[] = { 0, 255, 47, 0};
-  fwrite(end,1,4,fp1);
-  place+=4;
-  fclose (fp1);
-}
-
-void createMidiFile(const char* fileName,const char* srcFile, long size){
-  FILE* midFile = fopen (fileName, "wb");
-  char head[] = { 'M', 'T', 'h', 'd',
-                  0, 0, 0, 6, 0, 0, 0, 1, 0, 96,
-                  'M','T','r','k'};
-  fwrite(head,1,18,midFile);
-
-  unsigned char byte[4];
-  convertlong_4hexs (size, byte);
-  fwrite (byte, 1, 4, midFile);
-
-  int i;
-  FILE* datFile = fopen (srcFile, "rb");
-  do
-    {
-      fread (&i, 1, 1, datFile);
-      if (!feof (fp1))
-        fwrite (&i, 1, 1, midFile);
-    }
-  while (!feof (datFile));
-
-  fclose (midFile);
-  fclose (datFile);
-}
-
-void close_midfiles (void)
-{
-  createDatTail();
-  createMidiFile("music.mid","tempfile",place);
-}
 
 void convertlong_4hexs (unsigned long d, unsigned char byte[4])
 /* breaks long number up into four bytes. */
@@ -150,6 +76,68 @@ of each byte */
     varbyte[2] = (unsigned char) (varbyte[2] | 0x80);
 }
 
+void writeByte(unsigned char byteData)
+{
+  int tmp = byteData;
+  fwrite (&tmp, 1, 1, fp1);
+  ++place;
+}
+
+void program_setup (void)
+{
+  for (int j = 0; j < 8; ++j)
+    {
+      writeByte(0);
+      writeByte(j+192);
+      writeByte(program_number[j]);
+    }
+}
+
+void general_midi (void)
+{
+  unsigned char buffer[] = {0,240,5,126,127,9,1,247};
+  fwrite(buffer,1,sizeof(buffer),fp1);
+  place += sizeof(buffer);
+}
+
+void createDatTail(){
+  unsigned char end[] = { 0, 255, 47, 0};
+  fwrite(end,1,4,fp1);
+  place+=4;
+  fclose (fp1);
+}
+
+void createMidiFile(const char* fileName,const char* srcFile, long size){
+  FILE* midFile = fopen (fileName, "wb");
+  char head[] = { 'M', 'T', 'h', 'd',
+                  0, 0, 0, 6, 0, 0, 0, 1, 0, 96,
+                  'M','T','r','k'};
+  fwrite(head,1,18,midFile);
+
+  unsigned char byte[4];
+  convertlong_4hexs (size, byte);
+  fwrite (byte, 1, 4, midFile);
+
+  int i;
+  FILE* datFile = fopen (srcFile, "rb");
+  do
+    {
+      fread (&i, 1, 1, datFile);
+      if (!feof (datFile))
+        fwrite (&i, 1, 1, midFile);
+    }
+  while (!feof (datFile));
+
+  fclose (midFile);
+  fclose (datFile);
+}
+
+void close_midfiles (void)
+{
+  createDatTail();
+  createMidiFile("music.mid","tempfile",place);
+}
+
 void play (unsigned long int l, int c, int p, int v)
 {
   unsigned long number;
@@ -158,6 +146,10 @@ void play (unsigned long int l, int c, int p, int v)
   number = l;
   convertlong_4hexs (number, byte);
   convert_hexbyte_varbyte (byte, varbyte);
+
+  for(int i = 0;i<4;i++){
+      cout<<"V:"<<l<<"|"<<(int)varbyte[0]<<"*"<<(int)varbyte[1]<<"*"<<(int)varbyte[2]<<"*"<<(int)varbyte[3]<<endl;
+    }
 
   if (varbyte[0] == 0 && varbyte[1] == 0 && varbyte[2] == 0)
     {
