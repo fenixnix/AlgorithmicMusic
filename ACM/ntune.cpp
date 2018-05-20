@@ -28,6 +28,7 @@ void NTune::Random(int length)
     }
     cout<<endl;
     Motivic();
+    baseAddNew = Add(1);
 }
 
 void vecRmv(vector<int> &vec,int v){
@@ -40,8 +41,9 @@ void vecRmv(vector<int> &vec,int v){
     }
 }
 
-void NTune::Add(int count)
+vector<int> NTune::Add(int count)
 {
+    vector<int> tmp;
     vector<int> values;
     for(int i = 0; i<div; i++){
         values.push_back(i);
@@ -49,6 +51,7 @@ void NTune::Add(int count)
 
     for(int i = 0;i<base.size();i++){
         vecRmv(values,base[i]);
+        tmp.push_back(base[i]);
     }
 
     cout<<__FUNCTION__<<": ";
@@ -57,11 +60,29 @@ void NTune::Add(int count)
             break;
         }
         auto roll = rand()%values.size();
-        base.push_back(values[roll]);
+        tmp.push_back(values[roll]);
         cout<<values[roll]<<",";
         values.erase(values.begin()+roll);
     }
     cout<<endl;
+    return tmp;
+}
+
+vector<int> NTune::RandomSel()
+{
+    int roll = rand()%9;
+    switch(roll){
+    case 0: return base;break;
+    case 1: return retro;break;
+    case 2: return mixed1;break;
+    case 3: return mixed2;break;
+    case 4:
+    case 5: return mixed3;break;
+    case 6:
+    case 7:
+    case 8: return baseAddNew;break;
+    default:break;
+    }
 }
 
 void NTune::SelfTest()

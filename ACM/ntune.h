@@ -10,11 +10,13 @@ class NTune
 public:
   NTune();
   void Random(int length);
-  void Add(int count);
+  vector<int> Add(int cnt);
+  vector<int> RandomSel();
 
   static void SelfTest();
 
   vector<int> base;
+  vector<int> baseAddNew;
   vector<int> inver;
   vector<int> retro;
   vector<int> retroinver;

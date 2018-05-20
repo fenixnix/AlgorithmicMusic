@@ -12,6 +12,9 @@ public:
     void m002ShortSilence();
     void m003Mod(int index);
 
+    void PlayTune(vector<int> tune);
+    void PlayRhythmiCarray(int cnt = 5,int ins = 60);
+
     void Test();
 private:
     NTune tune;

@@ -156,7 +156,7 @@ void NMidiAuther::On(int c, int p, int v)
 
 void NMidiAuther::Off(int c, int p)
 {
-    Message(0,c+16,p);
+    Message(0,c-16,p);
 }
 
 void NMidiAuther::Wait(unsigned long l)
