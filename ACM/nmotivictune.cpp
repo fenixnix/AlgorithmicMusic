@@ -9,32 +9,32 @@ NMotivicTune::NMotivicTune()
 
 void NMotivicTune::m002ShortSilence()
 {
-    midi.Wait(tempo*2);
+    midi.tracks[0].Wait(tempo*2);
 }
 
 void NMotivicTune::m003Mod(int index)
 {
     if(index == 0){
         for(int i = 0;i<tune.inver.size();i++){
-            midi.Play(tempo,0,tune.inver[i] + MID_C + 12,50);
+            midi.tracks[0].Play(tempo,0,tune.inver[i] + MID_C + 12,50);
         }
         for(int i = 0;i<tune.inver.size();i++){
-            midi.On(3,tune.inver[i] + 24,90);
+            midi.tracks[0].On(3,tune.inver[i] + 24,90);
             PlayRhythmiCarray();
-            midi.Off(3,tune.inver[i] + 24);
+            midi.tracks[0].Off(3,tune.inver[i] + 24);
         }
     }
 
     if(index == 1){
         auto sounds = tune.RandomSel();
-        midi.On(3,tune.base[0]+24,70);
+        midi.tracks[0].On(3,tune.base[0]+24,70);
 
         for(int i = 0;i<tune.base.size();i++){
-            midi.On(0,tune.base[i]+60,40);
+            midi.tracks[0].On(0,tune.base[i]+60,40);
             PlayTune(sounds);
-            midi.Off(0,tune.base[i]+60);
+            midi.tracks[0].Off(0,tune.base[i]+60);
         }
-        midi.Off(3,tune.base[0]+24);
+        midi.tracks[0].Off(3,tune.base[0]+24);
     }
 }
 
@@ -42,14 +42,14 @@ void NMotivicTune::PlayTune(vector<int> tune)
 {
     for (int i = 0; i < tune.size(); ++i)
     {
-        midi.Play(32*2,3,tune[i]+48,35);
+        midi.tracks[0].Play(32*2,3,tune[i]+48,35);
       }
 }
 
 void NMotivicTune::PlayBeats(vector<int> beat, vector<int> tempo, vector<int> vol)
 {
   for(int i = 0;i<beat.size();i++){
-      midi.Beat(tempo[i],beat[i],vol[i]);
+      midi.tracks[0].Beat(tempo[i],beat[i],vol[i]);
     }
 }
 
@@ -62,9 +62,9 @@ void NMotivicTune::PlayRhythmiCarray(int cnt, int ins)//60,64,50,62 //5,6,7,8  /
     for (int i = 0; i < rArray.size(); i++)
       {
         if (rArray[i]){
-          midi.Beat(tempo*2,ins);
+          midi.tracks[0].Beat(tempo*2,ins);
         }else{
-          midi.Wait(tempo*2);
+          midi.tracks[0].Wait(tempo*2);
         }
       }
 }
@@ -91,17 +91,17 @@ void NMotivicTune::BeatTest()
 void NMotivicTune::m001Beginning()
 {
     for(int i = 0;i<tune.base.size();i++){
-        midi.Play(tempo*4,0,tune.base[i] + MID_C,50);
+        midi.tracks[0].Play(tempo*4,0,tune.base[i] + MID_C,50);
     }
-    midi.Wait(tempo*4);
+    midi.tracks[0].Wait(tempo*4);
     for(int i = 0;i<tune.base.size();i++){
-        midi.Play(tempo,0,tune.base[i] + MID_C,50);
-    }
-    for(int i = 0;i<tune.base.size();i++){
-        midi.Play(tempo/2,0,tune.base[i] + MID_C,50);
+        midi.tracks[0].Play(tempo,0,tune.base[i] + MID_C,50);
     }
     for(int i = 0;i<tune.base.size();i++){
-        midi.Play(tempo/4,0,tune.base[i] + MID_C,50);
+        midi.tracks[0].Play(tempo/2,0,tune.base[i] + MID_C,50);
+    }
+    for(int i = 0;i<tune.base.size();i++){
+        midi.tracks[0].Play(tempo/4,0,tune.base[i] + MID_C,50);
     }
 }
 
@@ -110,8 +110,8 @@ void NMotivicTune::Test()
     midi.Open();
     tune.Random(12);
     int instruments[] = {73,46,61,48};
-    midi.instrumentsSetup(instruments);
-    midi.Wait(tempo);
+    midi.tracks[0].instrumentsSetup(instruments);
+    midi.tracks[0].Wait(tempo);
     //m001Beginning();
     BeatTest();
     m003Mod(1);

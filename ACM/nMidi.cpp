@@ -16,6 +16,33 @@ NMidi::NMidi()
 void long2hexs (unsigned long d, unsigned char byte[4])
 /* breaks long number up into four bytes. */
 {
+
+}
+
+void hexbyte_varbyte (unsigned char byte[4], unsigned char varbyte[4])
+/* first it shifts all the bits past the 7th (8th) bit
+of each byte */
+{
+
+}
+
+void NMidi::Open(int trackCount)
+{
+    tracks.clear();
+    for(int i = 0;i<trackCount;i++){
+        tracks.push_back(NMidiTrack());
+    }
+    tracks[0].Open();
+}
+
+void NMidi::Close()
+{
+    tracks[0].Close();
+    createMidiFile("music.mid");
+}
+
+void NMidi::long2hexs(unsigned long d, unsigned char byte[])
+{
     unsigned long temp;
     temp = d;
     temp = temp >> 8 * 3;
@@ -34,9 +61,7 @@ void long2hexs (unsigned long d, unsigned char byte[4])
     byte[3] = (unsigned char) temp;
 }
 
-void hexbyte_varbyte (unsigned char byte[4], unsigned char varbyte[4])
-/* first it shifts all the bits past the 7th (8th) bit
-of each byte */
+void NMidi::hexbyte_varbyte(unsigned char byte[], unsigned char varbyte[])
 {
     unsigned char oldbuffer;
     unsigned char newbuffer;
@@ -80,100 +105,6 @@ of each byte */
         varbyte[2] = (unsigned char) (varbyte[2] | 0x80);
 }
 
-void NMidi::Open(int trackCount)
-{
-    //data header
-    char buffer[] = {0,0xf0,5,0x7e,
-                     0x7f,9,1,0xf7};
-    dats.clear();
-    for(int i = 0;i<trackCount;i++){
-        dats.push_back(ostringstream());
-    }
-    dats[0].write(buffer,sizeof(buffer));
-}
-
-void NMidi::Close()
-{
-    //data tail
-    char end[] = { 0, 0xff, 0x2f, 0};
-    dats[0].write(end,4);
-    createMidiFile("music.mid");
-}
-
-void NMidi::SetInstrument(int ch, int type)
-{
-    writeByte(0);
-    writeByte(0xC0+ch);
-    writeByte(type);
-}
-
-void NMidi::Message(unsigned long l, int c, int p, int v)
-{
-    unsigned long number;
-    unsigned char varbyte[4];
-    unsigned char byte[4];
-    number = l;
-    long2hexs (number, byte);
-    hexbyte_varbyte (byte, varbyte);
-
-    //  for(int i = 0;i<4;i++){
-    //      cout<<"V:"<<l<<"|"<<(int)varbyte[0]<<"*"<<(int)varbyte[1]<<"*"<<(int)varbyte[2]<<"*"<<(int)varbyte[3]<<endl;
-    //    }
-
-    if (varbyte[0] == 0 && varbyte[1] == 0 && varbyte[2] == 0)
-    {
-        writeByte(varbyte[3]);
-    }
-    else if (varbyte[0] == 0 && varbyte[1] == 0)
-    {
-        writeByte(varbyte[2]);
-        writeByte(varbyte[3]);
-    }
-    else if (varbyte[0] == 0)
-    {
-        writeByte(varbyte[1]);
-        writeByte(varbyte[2]);
-        writeByte(varbyte[3]);
-    }
-    else
-    {
-        writeByte(varbyte[0]);
-        writeByte(varbyte[1]);
-        writeByte(varbyte[2]);
-        writeByte(varbyte[3]);
-    }
-    writeByte(c);
-    writeByte(p);
-    writeByte(v);
-}
-
-void NMidi::Play(unsigned long l, int c, int p, int v)
-{
-    On(c,p,v);
-    Message(l,c+0x80,p);
-}
-
-void NMidi::Beat(unsigned long l, int p, int v)
-{
-    On(9,p,v);
-    Message(l,0x89,p);
-}
-
-void NMidi::On(int c, int p, int v)
-{
-    Message(0,c+0x90,p,v);
-}
-
-void NMidi::Off(int c, int p)
-{
-    Message(0,c+0x80,p);
-}
-
-void NMidi::Wait(unsigned long l)
-{
-    Message(l,WAITNOTE);
-}
-
 void NMidi::SelfTest()
 {
     for(int i = 0;i<12;i++){
@@ -183,21 +114,6 @@ void NMidi::SelfTest()
         }
     }
     cout<<endl;
-}
-
-void NMidi::instrumentsSetup(int program[])
-{
-    for (int i = 0; i < sizeof(program); ++i)
-    {
-        cout<<"CH:"<<i<<" Set:"<<program[i]<<endl;
-        SetInstrument(i,program[i]);
-    }
-}
-
-void NMidi::writeByte(unsigned char byteData)
-{
-    char t = byteData;
-    dats[0].write(&t,1);
 }
 
 void NMidi::writeMidiHeader(ofstream &file)
@@ -221,44 +137,15 @@ void NMidi::createMidiFile(const char *fileName)
 
     writeMidiHeader(midFile);
 
-
-
-    string d = dats[0].str();
-    {
-        writeTrackHeader(midFile);
-        unsigned char byte[4];
-        long2hexs (d.size(), byte);
-
-        midFile.write((char*)byte,4);
-        //fwrite (byte, 1, 4, midFile);
-    }
-
-
-//    {
-//        FILE* datFile = fopen (srcFile, "rb");
-//        addTrack(datFile, midFile);
-//        fclose (datFile);
-//    }
-
-//    {
-//        writeTrackHeader(midFile);
-//        unsigned char byte[4];
-//        long2hexs (size, byte);
-//        fwrite (byte, 1, 4, midFile);
-//    }
-
-//    {
-//        FILE* datFile = fopen (srcFile, "rb");
-//        addTrack(datFile, midFile);
-//        fclose (datFile);
-//    }
-
-
+    string d = tracks[0].Data();
+    writeTrackHeader(midFile);
+    unsigned char byte[4];
+    long2hexs (d.size(), byte);
+    midFile.write((char*)byte,4);
 
     midFile.write(d.data(),d.size());
 
     midFile.close();
-//    fclose (midFile);
 }
 
 int nMidiNote (int pitch)

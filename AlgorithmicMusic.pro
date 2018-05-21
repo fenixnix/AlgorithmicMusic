@@ -29,7 +29,8 @@ SOURCES += \
     ACM/algomuse.cpp \
     ACM/ntune.cpp \
     ACM/nmotivictune.cpp \
-    ACM/nMidi.cpp
+    ACM/nMidi.cpp \
+    ACM/nMidiTrack.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -39,7 +40,8 @@ HEADERS += \
     ACM/ntune.h \
     ACM/nmotivictune.h \
     ACM/percussionsound.h \
-    ACM/nMidi.h
+    ACM/nMidi.h \
+    ACM/nMidiTrack.h
 
 FORMS += \
         mainwindow.ui
