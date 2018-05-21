@@ -5,6 +5,8 @@
 #include <vector>
 #include <iostream>
 #include <sstream>
+#include <fstream>
+#include <ostream>
 
 #include "percussionsound.h"
 
@@ -13,11 +15,11 @@
 
 using namespace std;
 
-class NMidiAuther
+class NMidi
 {
 public:
-  NMidiAuther();
-  void Open(string fileName, int trackCount);
+  NMidi();
+  void Open(int trackCount = 1);
   void Close();
   void SetInstrument(int ch, int type);
   void instrumentsSetup(int program[]);
@@ -33,17 +35,11 @@ public:
 private:
 
   void writeByte(unsigned char byteData);
+  void writeMidiHeader(ofstream &file);
+  void writeTrackHeader(ofstream &file);
+  void createMidiFile(const char* fileName);
 
-  static void writeMidiHeader(FILE* file);
-  static void writeTrackHeader(FILE* file);
-  static void addTrack(FILE* datFile, FILE* midFile);
-  static void createMidiFile(const char* fileName,const char* srcFile, long size);
-
-  vector<FILE*> dats;
-  vector<unsigned long> dataSizes;
-
-  FILE *datFile;
-  unsigned long place = 0L;
+  vector<ostringstream> dats;
 };
 
 #endif // NMIDIAUTHER_H

@@ -1,4 +1,4 @@
-#include "nMidiAuther.h"
+#include "nMidi.h"
 
 using namespace std;
 
@@ -8,7 +8,7 @@ int midiOctave (int pitch);
 int midiNote (int pitch);
 string noteStr (int pitch);
 
-NMidiAuther::NMidiAuther()
+NMidi::NMidi()
 {
 
 }
@@ -80,36 +80,34 @@ of each byte */
         varbyte[2] = (unsigned char) (varbyte[2] | 0x80);
 }
 
-void NMidiAuther::Open(string fileName, int trackCount = 1)
+void NMidi::Open(int trackCount)
 {
-    datFile = fopen("tmp","wb");
-    place = 0;
     //data header
-    unsigned char buffer[] = {0,0xf0,5,0x7e,
-                              0x7f,9,1,0xf7};
-    fwrite(buffer,1,sizeof(buffer),datFile);
-    place += sizeof(buffer);
+    char buffer[] = {0,0xf0,5,0x7e,
+                     0x7f,9,1,0xf7};
+    dats.clear();
+    for(int i = 0;i<trackCount;i++){
+        dats.push_back(ostringstream());
+    }
+    dats[0].write(buffer,sizeof(buffer));
 }
 
-void NMidiAuther::Close()
+void NMidi::Close()
 {
     //data tail
-    unsigned char end[] = { 0, 0xff, 0x2f, 0};
-    fwrite(end,1,4,datFile);
-    place+=4;
-    fclose (datFile);
-    //createMidiFile
-    createMidiFile("music.mid","tmp",place);
+    char end[] = { 0, 0xff, 0x2f, 0};
+    dats[0].write(end,4);
+    createMidiFile("music.mid");
 }
 
-void NMidiAuther::SetInstrument(int ch, int type)
+void NMidi::SetInstrument(int ch, int type)
 {
     writeByte(0);
     writeByte(0xC0+ch);
     writeByte(type);
 }
 
-void NMidiAuther::Message(unsigned long l, int c, int p, int v)
+void NMidi::Message(unsigned long l, int c, int p, int v)
 {
     unsigned long number;
     unsigned char varbyte[4];
@@ -149,34 +147,34 @@ void NMidiAuther::Message(unsigned long l, int c, int p, int v)
     writeByte(v);
 }
 
-void NMidiAuther::Play(unsigned long l, int c, int p, int v)
+void NMidi::Play(unsigned long l, int c, int p, int v)
 {
     On(c,p,v);
     Message(l,c+0x80,p);
 }
 
-void NMidiAuther::Beat(unsigned long l, int p, int v)
+void NMidi::Beat(unsigned long l, int p, int v)
 {
     On(9,p,v);
     Message(l,0x89,p);
 }
 
-void NMidiAuther::On(int c, int p, int v)
+void NMidi::On(int c, int p, int v)
 {
     Message(0,c+0x90,p,v);
 }
 
-void NMidiAuther::Off(int c, int p)
+void NMidi::Off(int c, int p)
 {
     Message(0,c+0x80,p);
 }
 
-void NMidiAuther::Wait(unsigned long l)
+void NMidi::Wait(unsigned long l)
 {
     Message(l,WAITNOTE);
 }
 
-void NMidiAuther::SelfTest()
+void NMidi::SelfTest()
 {
     for(int i = 0;i<12;i++){
         cout<<noteStr(60+i);
@@ -187,7 +185,7 @@ void NMidiAuther::SelfTest()
     cout<<endl;
 }
 
-void NMidiAuther::instrumentsSetup(int program[])
+void NMidi::instrumentsSetup(int program[])
 {
     for (int i = 0; i < sizeof(program); ++i)
     {
@@ -196,80 +194,71 @@ void NMidiAuther::instrumentsSetup(int program[])
     }
 }
 
-//void NMidiAuther::generalMidi()
-//{
-//  unsigned char buffer[] = {0,240,5,126,127,9,1,247};
-//  fwrite(buffer,1,sizeof(buffer),datFile);
-//  place += sizeof(buffer);
-//}
-
-void NMidiAuther::writeByte(unsigned char byteData)
+void NMidi::writeByte(unsigned char byteData)
 {
-    int tmp = byteData;
-    fwrite (&tmp, 1, 1, datFile);
-    ++place;
+    char t = byteData;
+    dats[0].write(&t,1);
 }
 
-void NMidiAuther::writeMidiHeader(FILE *file)
+void NMidi::writeMidiHeader(ofstream &file)
 {
-    char head[] = { 'M', 'T', 'h', 'd',
-                    0, 0, 0, 6, //head Size
+    file<<"MThd";
+    char head[] = { 0, 0, 0, 6, //head Size
                     0, 1,//type
-                    0, 2,//track number
+                    0, 1,//track number
                     0, 96};//divition
-    fwrite(head,1,14,file);
+    file.write(head,sizeof(head));
 }
 
-void NMidiAuther::writeTrackHeader(FILE *file)
+void NMidi::writeTrackHeader(ofstream &file)
 {
-    char buff[] = "MTrk";
-    fwrite(buff,1,4,file);
+    file<<"MTrk";
 }
 
-void NMidiAuther::addTrack(FILE* datFile, FILE* midFile)
+void NMidi::createMidiFile(const char *fileName)
 {
-    int tmp;
-    do
-    {
-        fread (&tmp, 1, 1, datFile);
-        if (!feof (datFile))
-            fwrite (&tmp, 1, 1, midFile);
-    }
-    while (!feof (datFile));
-}
+    ofstream midFile(fileName,ios_base::out|ios_base::binary);
 
-void NMidiAuther::createMidiFile(const char *fileName, const char *srcFile, long size)
-{
-    FILE* midFile = fopen (fileName, "wb");
     writeMidiHeader(midFile);
 
+
+
+    string d = dats[0].str();
     {
         writeTrackHeader(midFile);
         unsigned char byte[4];
-        long2hexs (size, byte);
-        fwrite (byte, 1, 4, midFile);
+        long2hexs (d.size(), byte);
+
+        midFile.write((char*)byte,4);
+        //fwrite (byte, 1, 4, midFile);
     }
 
-    {
-        FILE* datFile = fopen (srcFile, "rb");
-        addTrack(datFile, midFile);
-        fclose (datFile);
-    }
 
-    {
-        writeTrackHeader(midFile);
-        unsigned char byte[4];
-        long2hexs (size, byte);
-        fwrite (byte, 1, 4, midFile);
-    }
+//    {
+//        FILE* datFile = fopen (srcFile, "rb");
+//        addTrack(datFile, midFile);
+//        fclose (datFile);
+//    }
 
-    {
-        FILE* datFile = fopen (srcFile, "rb");
-        addTrack(datFile, midFile);
-        fclose (datFile);
-    }
+//    {
+//        writeTrackHeader(midFile);
+//        unsigned char byte[4];
+//        long2hexs (size, byte);
+//        fwrite (byte, 1, 4, midFile);
+//    }
 
-    fclose (midFile);
+//    {
+//        FILE* datFile = fopen (srcFile, "rb");
+//        addTrack(datFile, midFile);
+//        fclose (datFile);
+//    }
+
+
+
+    midFile.write(d.data(),d.size());
+
+    midFile.close();
+//    fclose (midFile);
 }
 
 int nMidiNote (int pitch)

@@ -2,7 +2,7 @@
 #define NMOTIVICTUNE_H
 
 #include "ntune.h"
-#include "nMidiAuther.h"
+#include "nMidi.h"
 
 class NMotivicTune
 {
@@ -21,7 +21,7 @@ public:
     void Test();
 private:
     NTune tune;
-    NMidiAuther midi;
+    NMidi midi;
     int tempo = 48;
 };
 

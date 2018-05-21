@@ -107,7 +107,7 @@ void NMotivicTune::m001Beginning()
 
 void NMotivicTune::Test()
 {
-    midi.Open("tmp");
+    midi.Open();
     tune.Random(12);
     int instruments[] = {73,46,61,48};
     midi.instrumentsSetup(instruments);

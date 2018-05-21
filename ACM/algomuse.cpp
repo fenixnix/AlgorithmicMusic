@@ -29,7 +29,7 @@ AlgoMuse::AlgoMuse()
 
 void AlgoMuse::PlayWindChime()
 {
-  midi.Open("tmp");
+  midi.Open();
   midi.Message(48 * 2 * 4, 152 - 16, 100, 0);	/* Handshake */
   int pentatonic[] = { 45-12, 48-12, 50-12, 52-12, 55-12, 57-12 };
   int counter;
@@ -73,7 +73,7 @@ void AlgoMuse::PlayGreekMusic()
 
 void AlgoMuse::PlayMozartDiceGame()
 {
-  midi.Open("tmp");
+  midi.Open();
   midi.SetInstrument(0,6);
   int tempo = 48;
   midi.Wait(tempo*2*4);/* Handshake */

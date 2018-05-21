@@ -29,18 +29,17 @@ SOURCES += \
     ACM/algomuse.cpp \
     ACM/ntune.cpp \
     ACM/nmotivictune.cpp \
-    ACM/nMidiAuther.cpp
+    ACM/nMidi.cpp
 
 HEADERS += \
         mainwindow.h \
-    ACM/convert3.h \
     ACM/algomuse.h \
     ACM/pitchdefine.h \
     ACM/mozartdicetable.h \
     ACM/ntune.h \
     ACM/nmotivictune.h \
     ACM/percussionsound.h \
-    ACM/nMidiAuther.h
+    ACM/nMidi.h
 
 FORMS += \
         mainwindow.ui

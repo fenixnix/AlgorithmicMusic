@@ -19,7 +19,7 @@ public:
   void PlayMotivic();
 private:
   int octave = 24;
-  NMidiAuther midi;
+  NMidi midi;
   NMotivicTune motivic;
 };
 
