@@ -37,7 +37,9 @@ void NMidi::Open(int trackCount)
 
 void NMidi::Close()
 {
-    tracks[0].Close();
+    for(int i = 0;i<tracks.size();i++){
+        tracks[i].Close();
+    }
     createMidiFile("music.mid");
 }
 
@@ -121,7 +123,7 @@ void NMidi::writeMidiHeader(ofstream &file)
     file<<"MThd";
     char head[] = { 0, 0, 0, 6, //head Size
                     0, 1,//type
-                    0, 1,//track number
+                    0, tracks.size(),//track number
                     0, 96};//divition
     file.write(head,sizeof(head));
 }
@@ -134,16 +136,16 @@ void NMidi::writeTrackHeader(ofstream &file)
 void NMidi::createMidiFile(const char *fileName)
 {
     ofstream midFile(fileName,ios_base::out|ios_base::binary);
-
     writeMidiHeader(midFile);
 
-    string d = tracks[0].Data();
-    writeTrackHeader(midFile);
-    unsigned char byte[4];
-    long2hexs (d.size(), byte);
-    midFile.write((char*)byte,4);
-
-    midFile.write(d.data(),d.size());
+    for(int i = 0;i<tracks.size();i++){
+        string d = tracks[i].Data();
+        writeTrackHeader(midFile);
+        unsigned char byte[4];
+        long2hexs (d.size(), byte);
+        midFile.write((char*)byte,4);
+        midFile.write(d.data(),d.size());
+    }
 
     midFile.close();
 }
