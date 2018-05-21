@@ -73,35 +73,28 @@ void AlgoMuse::PlayGreekMusic()
 
 void AlgoMuse::PlayMozartDiceGame()
 {
-  int i, m, j, p;
   midi.Open("tmp");
-  for (i = 0; i < 8; ++i)
-    program_number[i] = 0;
-  midi.instrumentsSetup(program_number);
-
+  midi.SetInstrument(0,6);
   int tempo = 48;
   midi.Wait(tempo*2*4);/* Handshake */
-  for (m = 0; m < MEASURES; ++m)
+  for (int m = 0; m < MEASURES; ++m)
     {
-      j = rand () % ALTERNATES;
+      int j = rand () % ALTERNATES;
       {
-        for (p = 0; p < PITCHES; ++p)
+        for (int p = 0; p < PITCHES; ++p)
           {
             for(int i = 0;i<3;i++){
                 auto pitch= measure[m][j][i][p];
                 if(pitch!=-1){
-                    midi.On(148,pitch);
-                    //midi.Message(0,148,pitch,100);
+                    midi.On(0,pitch);
                   }
               }
             midi.Wait(tempo);
-            //midi.Message (tempo, 152 - 16, 100, 100);
 
             for(int i = 0;i<3;i++){
                 auto pitch= measure[m][j][i][p];
                 if(pitch!=-1){
-                    midi.Off(148,pitch);
-                    //midi.Message(0,148-16,pitch);
+                    midi.Off(0,pitch);
                   }
               }
           }
