@@ -23,6 +23,8 @@ private slots:
 
   void on_actionbeginning_triggered();
 
+  void on_actionTest_triggered();
+
 private:
   Ui::MainWindow *ui;
   AlgoMuse muse;

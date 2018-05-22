@@ -13,12 +13,13 @@ class AlgoMuse
 {
 public:
   AlgoMuse();
+
   void PlayWindChime();
   void PlayGreekMusic();
   void PlayMozartDiceGame();
   void PlayMotivic();
+  void ChordTest();
 private:
-  int octave = 24;
   NMidi midi;
   NMotivicTune motivic;
 };

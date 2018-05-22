@@ -27,3 +27,8 @@ void MainWindow::on_actionbeginning_triggered()
 {
   muse.PlayMotivic();
 }
+
+void MainWindow::on_actionTest_triggered()
+{
+  muse.ChordTest();
+}

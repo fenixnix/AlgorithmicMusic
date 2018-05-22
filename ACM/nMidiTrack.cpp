@@ -2,7 +2,7 @@
 
 NMidiTrack::NMidiTrack()
 {
-
+    initAllMode();
 }
 
 void NMidiTrack::Open()
@@ -29,10 +29,10 @@ void NMidiTrack::SetInstrument(int ch, int type)
 void NMidiTrack::instrumentsSetup(int program[])
 {
     for (int i = 0; i < sizeof(program); ++i)
-    {
-        cout<<"CH:"<<i<<" Set:"<<program[i]<<endl;
-        SetInstrument(i,program[i]);
-    }
+        {
+            cout<<"CH:"<<i<<" Set:"<<program[i]<<endl;
+            SetInstrument(i,program[i]);
+        }
 }
 
 #include "nMidi.h"
@@ -50,27 +50,27 @@ void NMidiTrack::Message(unsigned long l, int c, int p, int v)
     //    }
 
     if (varbyte[0] == 0 && varbyte[1] == 0 && varbyte[2] == 0)
-    {
-        writeByte(varbyte[3]);
-    }
+        {
+            writeByte(varbyte[3]);
+        }
     else if (varbyte[0] == 0 && varbyte[1] == 0)
-    {
-        writeByte(varbyte[2]);
-        writeByte(varbyte[3]);
-    }
+        {
+            writeByte(varbyte[2]);
+            writeByte(varbyte[3]);
+        }
     else if (varbyte[0] == 0)
-    {
-        writeByte(varbyte[1]);
-        writeByte(varbyte[2]);
-        writeByte(varbyte[3]);
-    }
+        {
+            writeByte(varbyte[1]);
+            writeByte(varbyte[2]);
+            writeByte(varbyte[3]);
+        }
     else
-    {
-        writeByte(varbyte[0]);
-        writeByte(varbyte[1]);
-        writeByte(varbyte[2]);
-        writeByte(varbyte[3]);
-    }
+        {
+            writeByte(varbyte[0]);
+            writeByte(varbyte[1]);
+            writeByte(varbyte[2]);
+            writeByte(varbyte[3]);
+        }
     writeByte(c);
     writeByte(p);
     writeByte(v);
@@ -80,6 +80,30 @@ void NMidiTrack::Play(unsigned long l, int c, int p, int v)
 {
     On(c,p,v);
     Message(l,c+0x80,p);
+}
+
+void NMidiTrack::Chord(unsigned long l, int c, int p, char *mode, int level, int v)
+{
+    for(int i = 0;i<level;i++){
+            On(c,p+mode[i*2],v);
+            //cout<<(int)mode[i*2]<<"*";
+        }
+    //cout<<endl;
+    Wait(l);
+    for(int i = 0;i<level;i++){
+            Off(c,p+mode[i*2]);
+        }
+}
+
+void NMidiTrack::Chord2(unsigned long l, int c, int p, int v)
+{
+    for(int i = 0;i<4;i++){
+            On(c,p+ionian[chord[i]],v);
+        }
+    Wait(l);
+    for(int i = 0;i<4;i++){
+            Off(c,p+ionian[chord[i]]);
+        }
 }
 
 void NMidiTrack::Beat(unsigned long l, int p, int v)

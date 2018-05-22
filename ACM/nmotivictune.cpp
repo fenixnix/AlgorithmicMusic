@@ -108,12 +108,12 @@ void NMotivicTune::m001Beginning()
 void NMotivicTune::Test()
 {
     midi.Open();
-    tune.Random(12);
+    tune.Random(4);
     int instruments[] = {73,46,61,48};
     midi.tracks[0].instrumentsSetup(instruments);
     midi.tracks[0].Wait(tempo);
     //m001Beginning();
-    BeatTest();
-    m003Mod(1);
+    //BeatTest();
+    m003Mod(0);
     midi.Close();
 }

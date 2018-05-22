@@ -51,8 +51,15 @@
     </property>
     <addaction name="actionbeginning"/>
    </widget>
+   <widget class="QMenu" name="menuChord">
+    <property name="title">
+     <string>Chord</string>
+    </property>
+    <addaction name="actionTest"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuMotivic"/>
+   <addaction name="menuChord"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
@@ -66,6 +73,11 @@
   <action name="actionbeginning">
    <property name="text">
     <string>beginning</string>
+   </property>
+  </action>
+  <action name="actionTest">
+   <property name="text">
+    <string>Test</string>
    </property>
   </action>
  </widget>

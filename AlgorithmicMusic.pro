@@ -30,7 +30,8 @@ SOURCES += \
     ACM/ntune.cpp \
     ACM/nmotivictune.cpp \
     ACM/nMidi.cpp \
-    ACM/nMidiTrack.cpp
+    ACM/nMidiTrack.cpp \
+    ACM/ntonic.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -41,7 +42,9 @@ HEADERS += \
     ACM/nmotivictune.h \
     ACM/percussionsound.h \
     ACM/nMidi.h \
-    ACM/nMidiTrack.h
+    ACM/nMidiTrack.h \
+    ACM/ntunemode.h \
+    ACM/nTonic.h
 
 FORMS += \
         mainwindow.ui
