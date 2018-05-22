@@ -121,7 +121,8 @@ void AlgoMuse::ChordTest()
   midi.tracks[0].Wait(tempo*2*4);
 
   NTonic tonic;
-  tonic.SetMode(MAJOR);
+
+  tonic.SetMode(0);
 
   midi.tracks[0].Chord(tempo*4,0,tonic.Note(0));
 
@@ -134,10 +135,10 @@ void AlgoMuse::ChordTest()
 
   midi.tracks[0].Chord(tempo*4,0,tonic.Note(-2),minor);
   for(int i = 0;i<4;i++){
-      midi.tracks[0].Play(tempo/2,0,tonic.Note(5-7+i));
+      midi.tracks[0].Play(tempo/2,0,tonic.Note(-2+i));
     }
   for(int i = 2;i<6;i++){
-      midi.tracks[0].Play(tempo/2,0,tonic.Note(5-7+i));
+      midi.tracks[0].Play(tempo/2,0,tonic.Note(-2+i));
     }
 
   midi.tracks[0].Chord(tempo*4,0,tonic.Note(1),minor);
@@ -150,10 +151,10 @@ void AlgoMuse::ChordTest()
 
   midi.tracks[0].Chord(tempo*4,0,tonic.Note(-3),mixolydian,4);
   for(int i = 0;i<4;i++){
-      midi.tracks[0].Play(tempo/2,0,tonic.Note(4-7+i));
+      midi.tracks[0].Play(tempo/2,0,tonic.Note(-2+i));
     }
   for(int i = 2;i<6;i++){
-      midi.tracks[0].Play(tempo/2,0,tonic.Note(4-7+i));
+      midi.tracks[0].Play(tempo/2,0,tonic.Note(-2+i));
     }
 
   midi.tracks[0].Wait(tempo*6);
