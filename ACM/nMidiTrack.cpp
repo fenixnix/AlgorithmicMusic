@@ -3,6 +3,15 @@
 NMidiTrack::NMidiTrack()
 {
     initAllMode();
+    tunes = vector<int>{0,1,2,3,4,5,6,7};
+    intervals = vector<int>{48,44,40,36,32,28,24,20};
+    levels = vector<int>{40,50,60,70,80,90,100,110};
+}
+
+NMidiTrack::NMidiTrack(int channel)
+{
+    NMidiTrack();
+    SetChannel(channel);
 }
 
 void NMidiTrack::Open()
@@ -26,6 +35,11 @@ void NMidiTrack::SetInstrument(int ch, int type)
     writeByte(type);
 }
 
+void NMidiTrack::SetChannel(int channel)
+{
+    this->channel = channel;
+}
+
 void NMidiTrack::instrumentsSetup(int program[])
 {
     for (int i = 0; i < sizeof(program); ++i)
@@ -36,7 +50,7 @@ void NMidiTrack::instrumentsSetup(int program[])
 }
 
 #include "nMidi.h"
-void NMidiTrack::Message(unsigned long l, int c, int p, int v)
+void NMidiTrack::Message(unsigned long l,int channel, int p, int v)
 {
     unsigned long number;
     unsigned char varbyte[4];
@@ -71,55 +85,67 @@ void NMidiTrack::Message(unsigned long l, int c, int p, int v)
             writeByte(varbyte[2]);
             writeByte(varbyte[3]);
         }
-    writeByte(c);
+    writeByte(channel);
     writeByte(p);
     writeByte(v);
 }
 
-void NMidiTrack::Play(unsigned long l, int c, int p, int v)
+void NMidiTrack::Play(unsigned long l, int p, int v)
 {
-    On(c,p,v);
-    Message(l,c+0x80,p);
+    On(p,v);
+    Message(l,channel+0x80,p);
 }
 
-void NMidiTrack::Chord(unsigned long l, int c, int p, char *mode, int level, int v)
+void NMidiTrack::PlayTune(int startPitch)
+{
+    tonic.SetBase(startPitch);
+    for(int i = 0;i<tunes.size();i++){
+        Play(intervals[i],tonic.Note(tunes[i]),levels[i]);
+    }
+}
+
+void NMidiTrack::Chord(unsigned long l, int p, char *mode, int level, int v)
 {
     for(int i = 0;i<level;i++){
-            On(c,p+mode[i*2],v);
+            On(p+mode[i*2],v);
             //cout<<(int)mode[i*2]<<"*";
         }
     //cout<<endl;
     Wait(l);
     for(int i = 0;i<level;i++){
-            Off(c,p+mode[i*2]);
+            Off(p+mode[i*2]);
         }
 }
 
-void NMidiTrack::Chord2(unsigned long l, int c, int p, int v)
+void NMidiTrack::Chord2(unsigned long l, int p, int v)
 {
-    for(int i = 0;i<4;i++){
-            On(c,p+ionian[chord[i]],v);
-        }
+    On(p,v);
+    On(p+4,v);
+    On(p+7,v);
+    //On(c,p+11,v);
+
     Wait(l);
-    for(int i = 0;i<4;i++){
-            Off(c,p+ionian[chord[i]]);
-        }
+
+    Off(p);
+    Off(p+4);
+    Off(p+7);
+    //Off(c,p+11);
 }
 
 void NMidiTrack::Beat(unsigned long l, int p, int v)
 {
-    On(9,p,v);
+    Message(0,0x99,p);
     Message(l,0x89,p);
 }
 
-void NMidiTrack::On(int c, int p, int v)
+void NMidiTrack::On(int p, int v)
 {
-    Message(0,c+0x90,p,v);
+    Message(0,channel+0x90,p,v);
 }
 
-void NMidiTrack::Off(int c, int p)
+void NMidiTrack::Off(int p)
 {
-    Message(0,c+0x80,p);
+    Message(0,channel+0x80,p);
 }
 
 void NMidiTrack::Wait(unsigned long l)

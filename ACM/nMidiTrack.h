@@ -20,22 +20,30 @@ class NMidiTrack
 {
 public:
     NMidiTrack();
+    NMidiTrack(int channel);
     void Open();
     void Close();
     void SetInstrument(int ch, int type);
+    void SetChannel(int channel);
     void instrumentsSetup(int program[]);
-    void Message(unsigned long int l, int c = WAITNOTE, int p = MID_C, int v = 0x7f);
-    void Play(unsigned long int l, int c = WAITNOTE, int p = MID_C, int v = 0x7f);
-    void Chord(unsigned long int l, int c = WAITNOTE, int p = MID_C, char* mode = ionian, int level = 3, int v = 0x7f);
-    void Chord2(unsigned long int l, int c = WAITNOTE, int p = MID_C, int v = 0x7f);
+    void Message(unsigned long int l, int channel, int p = MID_C, int v = 0x7f);
+    void Play(unsigned long int l,int p = MID_C, int v = 0x7f);
+    void PlayTune(int startPitch);
+    void Chord(unsigned long int l, int p = MID_C, char* mode = ionian, int level = 3, int v = 0x7f);
+    void Chord2(unsigned long int l, int p = MID_C, int v = 0x7f);
     void Beat(unsigned long int l, int p, int v = 0x7f);
-    void On(int c = 0, int p = MID_C, int v = 0x7f);
-    void Off(int c = 0, int p = MID_C);
+    void On(int p = MID_C, int v = 0x7f);
+    void Off(int p = MID_C);
     void Wait(unsigned long int l);
     string Data();
 private:
     ostringstream data;
     void writeByte(unsigned char byteData);
+    int channel = 0;
+    NTonic tonic;
+    vector<int> tunes;
+    vector<int> intervals;
+    vector<int> levels;
 };
 
 #endif // NMIDITRACK_H
