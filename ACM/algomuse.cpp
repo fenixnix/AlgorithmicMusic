@@ -124,10 +124,30 @@ void AlgoMuse::ChordTest()
     midi.tracks[0].SetInstrument(0,0);
     midi.tracks[0].Wait(tempo*2*4);
 
-    midi.tracks[0].PlayTune(60);
+    //midi.tracks[0].PlayTune(60);
+
+    NMidiTrack *mainTrack = &midi.tracks[0];
+
+
+    mainTrack->RandomTune();
+    mainTrack->PlayTune(0+60);
+    mainTrack->Wait(12);
+    mainTrack->PlayTune(5+60);
+    mainTrack->Wait(12);
+    mainTrack->PlayTune(2+60);
+    mainTrack->Wait(12);
+    mainTrack->PlayTune(3+60);
+    mainTrack->PlayTune(0+60);
+    mainTrack->Wait(12);
+    mainTrack->PlayTune(5+60);
+    mainTrack->Wait(12);
+    mainTrack->PlayTune(2+60);
+    mainTrack->Wait(12);
+    mainTrack->PlayTune(3+60);
+
+    midi.tracks[0].Wait(tempo*6);
 
     NTonic tonic;
-
     midi.tracks[0].Play(tempo*2,70);
     midi.tracks[0].Play(tempo/2,71);
     midi.tracks[0].Play(tempo/2,70);

@@ -4,7 +4,7 @@ NMidiTrack::NMidiTrack()
 {
     initAllMode();
     tunes = vector<int>{0,1,2,3,4,5,6,7};
-    intervals = vector<int>{48,44,40,36,32,28,24,20};
+    intervals = vector<int>{48,24,24,24,32,28,24,20};
     levels = vector<int>{40,50,60,70,80,90,100,110};
 }
 
@@ -38,6 +38,16 @@ void NMidiTrack::SetInstrument(int ch, int type)
 void NMidiTrack::SetChannel(int channel)
 {
     this->channel = channel;
+}
+
+void NMidiTrack::SetTempo(unsigned long tempo)
+{
+    this->tempo = tempo;
+}
+
+void NMidiTrack::SetVolume(int volume)
+{
+    this->volume = volume;
 }
 
 void NMidiTrack::instrumentsSetup(int program[])
@@ -90,17 +100,36 @@ void NMidiTrack::Message(unsigned long l,int channel, int p, int v)
     writeByte(v);
 }
 
-void NMidiTrack::Play(unsigned long l, int p, int v)
+void NMidiTrack::Play(int p, unsigned long l, int v)
 {
     On(p,v);
     Message(l,channel+0x80,p);
+}
+
+void NMidiTrack::Note(int note, unsigned long tempo, int lv)
+{
+    this->tempo = tempo;
+    this->volume = lv;
+    int pitch = tonic.Note(note);
+    On(pitch, lv);
+    Message(tempo, channel+0x80, pitch);
+}
+
+void NMidiTrack::Note(int note, unsigned long tempo)
+{
+    Note(note,tempo,volume);
+}
+
+void NMidiTrack::Note(int note)
+{
+    Note(note,tempo);
 }
 
 void NMidiTrack::PlayTune(int startPitch)
 {
     tonic.SetBase(startPitch);
     for(int i = 0;i<tunes.size();i++){
-        Play(intervals[i],tonic.Note(tunes[i]),levels[i]);
+        Note(tunes[i],intervals[i],levels[i]);
     }
 }
 
@@ -132,10 +161,17 @@ void NMidiTrack::Chord2(unsigned long l, int p, int v)
     //Off(c,p+11);
 }
 
-void NMidiTrack::Beat(unsigned long l, int p, int v)
+void NMidiTrack::Beat(int p, unsigned long l, int v)
 {
     Message(0,0x99,p);
     Message(l,0x89,p);
+}
+
+void NMidiTrack::RandomTune()
+{
+    tunes = vector<int>{0,0,5,2,3};
+    intervals = vector<int>{72+48,48,48,48,72*2,28,24,20};
+    levels = vector<int>{40,50,60,70,80,90,100,110};
 }
 
 void NMidiTrack::On(int p, int v)
