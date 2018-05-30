@@ -8,7 +8,7 @@ QMusicInstrument::QMusicInstrument()
 
 void QMusicInstrument::Play(int index)
 {
-    chipTune.generateData("Pulse",music.TunePitch(index),contour);
+    chipTune.generateData("Pulse",music.NoteFreq(index),contour);
     PlayChip();
 }
 
@@ -62,5 +62,5 @@ void QMusicInstrument::SetMode(QString mode)
 
 int QMusicInstrument::GetModeNoteCount()
 {
-    return music.TuneCount();
+    return music.GetModeNoteCnt();
 }

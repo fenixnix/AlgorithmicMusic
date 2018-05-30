@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>429</width>
+    <width>464</width>
     <height>120</height>
    </rect>
   </property>
@@ -36,7 +36,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>429</width>
+     <width>464</width>
      <height>17</height>
     </rect>
    </property>
@@ -71,6 +71,7 @@
     </property>
     <addaction name="actionMode"/>
     <addaction name="actionKeyboard"/>
+    <addaction name="actionTest_2"/>
    </widget>
    <widget class="QMenu" name="menurhythm">
     <property name="title">
@@ -126,6 +127,11 @@
   <action name="actionTone_Tester">
    <property name="text">
     <string>Tone Tester</string>
+   </property>
+  </action>
+  <action name="actionTest_2">
+   <property name="text">
+    <string>Test</string>
    </property>
   </action>
  </widget>

@@ -1,7 +1,7 @@
 #ifndef NMOTIVICTUNE_H
 #define NMOTIVICTUNE_H
 
-#include "ntune.h"
+#include "NMelody.h"
 #include "nMidi.h"
 
 class NMotivicTune
@@ -20,7 +20,7 @@ public:
     void BeatTest();
     void Test();
 private:
-    NTune tune;
+    NMelody tune;
     NMidi midi;
     int tempo = 48;
 };

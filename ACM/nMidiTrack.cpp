@@ -2,8 +2,7 @@
 
 NMidiTrack::NMidiTrack()
 {
-    initAllMode();
-    tonic.SetMode(DORIAN);
+    //initAllMode();
     tunes = vector<int>{0,1,2,3,4,5,6,7};
     intervals = vector<int>{48,24,24,24,32,28,24,20};
     levels = vector<int>{40,50,60,70,80,90,100,110};
@@ -111,7 +110,7 @@ void NMidiTrack::Note(int note, unsigned long tempo, int lv)
 {
     this->tempo = tempo;
     this->volume = lv;
-    int pitch = tonic.Note(note);
+    int pitch = tonic.NotePitch(note);
     On(pitch, lv);
     Message(tempo, channel+0x80, pitch);
 }
@@ -128,39 +127,39 @@ void NMidiTrack::Note(int note)
 
 void NMidiTrack::PlayTune(int startPitch)
 {
-    tonic.SetBase(startPitch);
+    tonic.SetBasePitch(startPitch);
     for(int i = 0;i<tunes.size();i++){
         Note(tunes[i],intervals[i],levels[i]);
     }
 }
 
-void NMidiTrack::Chord(unsigned long l, int p, char *mode, int level, int v)
-{
-    for(int i = 0;i<level;i++){
-            On(p+mode[i*2],v);
-            //cout<<(int)mode[i*2]<<"*";
-        }
-    //cout<<endl;
-    Wait(l);
-    for(int i = 0;i<level;i++){
-            Off(p+mode[i*2]);
-        }
-}
+//void NMidiTrack::Chord(unsigned long l, int p, char *mode, int level, int v)
+//{
+//    for(int i = 0;i<level;i++){
+//            On(p+mode[i*2],v);
+//            //cout<<(int)mode[i*2]<<"*";
+//        }
+//    //cout<<endl;
+//    Wait(l);
+//    for(int i = 0;i<level;i++){
+//            Off(p+mode[i*2]);
+//        }
+//}
 
-void NMidiTrack::Chord2(unsigned long l, int p, int v)
-{
-    On(p,v);
-    On(p+4,v);
-    On(p+7,v);
-    //On(c,p+11,v);
+//void NMidiTrack::Chord2(unsigned long l, int p, int v)
+//{
+//    On(p,v);
+//    On(p+4,v);
+//    On(p+7,v);
+//    //On(c,p+11,v);
 
-    Wait(l);
+//    Wait(l);
 
-    Off(p);
-    Off(p+4);
-    Off(p+7);
-    //Off(c,p+11);
-}
+//    Off(p);
+//    Off(p+4);
+//    Off(p+7);
+//    //Off(c,p+11);
+//}
 
 void NMidiTrack::Beat(int p, unsigned long l, int v)
 {

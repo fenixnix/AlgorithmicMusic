@@ -8,8 +8,7 @@
 #include <fstream>
 #include <ostream>
 
-#include "ntunemode.h"
-#include "nTonic.h"
+#include "NTonic.h"
 #include "percussionsound.h"
 
 #define WAITNOTE 0x88
@@ -38,14 +37,16 @@ public:
 
     void RandomTune();
 
-    void Chord(unsigned long int l, int p = MID_C, char* mode = ionian, int volume = 3, int v = 0x7f);
-    void Chord2(unsigned long int l, int p = MID_C, int v = 0x7f);
+//    void Chord(unsigned long int l, int p = MID_C, char* mode = ionian, int volume = 3, int v = 0x7f);
+//    void Chord2(unsigned long int l, int p = MID_C, int v = 0x7f);
 
     void On(int p = MID_C, int v = 0x7f);
     void Off(int p = MID_C);
     void Wait(unsigned long int l);
     void Message(unsigned long int l, int channel, int p = MID_C, int v = 0x7f);
     string Data();
+
+    NTonic tonic;
 private:
     ostringstream data;    
     void writeByte(unsigned char byteData);
@@ -54,7 +55,6 @@ private:
     unsigned long int tempo = 48;
     int volume = 0x7f;
 
-    NTonic tonic;
     vector<int> tunes;
     vector<int> intervals;
     vector<int> levels;

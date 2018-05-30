@@ -8,7 +8,7 @@
 #define VOICES 3
 #define PITCHES 6
 
-int measure[MEASURES][ALTERNATES][VOICES][PITCHES] =
+int mozart[MEASURES][ALTERNATES][VOICES][PITCHES] =
 {
   {{{E5,-1,C5,-1,G4,-1}, /*measure 93   1st of 11 choices of measure 1*/
     {-1,-1,-1,-1,-1,-1},

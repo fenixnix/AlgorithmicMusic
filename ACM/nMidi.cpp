@@ -10,8 +10,8 @@ string noteStr (int pitch);
 
 NMidi::NMidi()
 {
-  initAllMode();
-  PrintAllMode();
+  //initAllMode();
+  //PrintAllMode();
 }
 
 void long2hexs (unsigned long d, unsigned char byte[4])

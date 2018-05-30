@@ -5,6 +5,7 @@
 #include <time.h>
 #include <stdio.h>
 #include <iostream>
+#include "ntrack.h"
 #include "nmotivictune.h"
 
 using namespace std;
@@ -17,10 +18,12 @@ public:
   void PlayWindChime();
   void PlayMozartDiceGame();
   void PlayMotivic();
-  void ChordTest();
+
+  void TonicTest(string mode);
 private:
   NMidi midi;
   NMotivicTune motivic;
+  NTrack track;
 };
 
 #endif // ALGOMUSE_H

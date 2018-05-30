@@ -2,6 +2,7 @@
 #define FORMKEYBOARD_H
 
 #include <QWidget>
+#include <QTimer>
 #include "Device//qmusicinstrument.h"
 
 namespace Ui {
@@ -31,11 +32,15 @@ private slots:
 
   void on_comboBoxMode_currentTextChanged(const QString &arg1);
 
+  void onTimer();
+
 private:
   Ui::FormKeyboard *ui;
   QMusicInstrument music;
   QMusicInstrument Drum;
   void InitKey();
+  QTimer timer;
+  int index = 0;
 };
 
 #endif // FORMKEYBOARD_H

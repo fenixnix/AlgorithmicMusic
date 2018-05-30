@@ -1,14 +1,14 @@
-#include "ntune.h"
+#include "NMelody.h"
 #include <iostream>
 #include <time.h>
 
-NTune::NTune()
+NMelody::NMelody()
 {
     time_t t;
     srand ((unsigned) time (&t));
 }
 
-void NTune::Random(int length)
+void NMelody::Random(int length)
 {
     base.clear();
     int rndRange = div;
@@ -41,7 +41,7 @@ void vecRmv(vector<int> &vec,int v){
     }
 }
 
-vector<int> NTune::Add(int count)
+vector<int> NMelody::Add(int count)
 {
     vector<int> tmp;
     vector<int> values;
@@ -68,7 +68,7 @@ vector<int> NTune::Add(int count)
     return tmp;
 }
 
-vector<int> NTune::RandomSel()
+vector<int> NMelody::RandomSel()
 {
     int roll = rand()%9;
     switch(roll){
@@ -85,14 +85,14 @@ vector<int> NTune::RandomSel()
     }
 }
 
-void NTune::SelfTest()
+void NMelody::SelfTest()
 {
-    NTune tune;
+    NMelody tune;
     tune.Random(6);
     tune.Add(3);
 }
 
-void NTune::Motivic()
+void NMelody::Motivic()
 {
     Inverse();
     Retro();
@@ -105,7 +105,7 @@ void NTune::Motivic()
     mixedinver3 = Mixed(mixedinver2);
 }
 
-void NTune::Inverse()
+void NMelody::Inverse()
 {
     cout<<__FUNCTION__<<": ";
     inver.clear();
@@ -117,7 +117,7 @@ void NTune::Inverse()
     cout<<endl;
 }
 
-vector<int> NTune::Inver(vector<int> src)
+vector<int> NMelody::Inver(vector<int> src)
 {
     cout<<__FUNCTION__<<": ";
     vector<int> tmp;
@@ -130,7 +130,7 @@ vector<int> NTune::Inver(vector<int> src)
     return tmp;
 }
 
-void NTune::Retro()
+void NMelody::Retro()
 {
     cout<<__FUNCTION__<<": ";
     retro.clear();
@@ -142,7 +142,7 @@ void NTune::Retro()
     cout<<endl;
 }
 
-void NTune::RetroInver()
+void NMelody::RetroInver()
 {
     cout<<__FUNCTION__<<": ";
     retroinver.clear();
@@ -154,7 +154,7 @@ void NTune::RetroInver()
     cout<<endl;
 }
 
-vector<int> NTune::Mixed(vector<int> src)
+vector<int> NMelody::Mixed(vector<int> src)
 {
     cout<<__FUNCTION__<<": ";
     vector<int> tmp;

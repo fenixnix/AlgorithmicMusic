@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QInputDialog>
 #include "ACM/algomuse.h"
 #include "formkeyboard.h"
 #include "dialogmusicinstrumenttest.h"
@@ -26,13 +27,13 @@ private slots:
 
   void on_actionbeginning_triggered();
 
-  void on_actionTest_triggered();
-
   void on_actionKeyboard_triggered();
 
   void on_actionTone_Tester_triggered();
 
   void on_actionSfx_triggered();
+
+  void on_actionTest_2_triggered();
 
 private:
   Ui::MainWindow *ui;

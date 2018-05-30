@@ -12,6 +12,7 @@ FormKeyboard::FormKeyboard(QWidget *parent) :
   music.SetMode("China");
   InitKey();
   RefreshModes();
+  QObject::connect(&timer,&QTimer::timeout,this,&FormKeyboard::onTimer);
 }
 
 FormKeyboard::~FormKeyboard()
@@ -69,11 +70,17 @@ void FormKeyboard::on_btnTomtom_clicked()
 
 void FormKeyboard::on_comboBoxMode_currentTextChanged(const QString &arg1)
 {
-    music.SetMode(arg1);
-    int cnt = music.GetModeNoteCount();
-    for(int i = 0;i<cnt;i++){
-        music.Play(i);
-        //QThread::sleep(2);
-        qDebug()<<"Play"<<i;
-      }
+  music.SetMode(arg1);
+  index = 0;
+  timer.start(150);
+}
+
+void FormKeyboard::onTimer()
+{
+  music.Play(index);
+  qDebug()<<"Play"<<index;
+  index++;
+  if(index>music.GetModeNoteCount()){
+      timer.stop();
+    }
 }

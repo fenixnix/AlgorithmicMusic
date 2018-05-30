@@ -28,11 +28,6 @@ void MainWindow::on_actionbeginning_triggered()
   muse.PlayMotivic();
 }
 
-void MainWindow::on_actionTest_triggered()
-{
-  muse.ChordTest();
-}
-
 void MainWindow::on_actionKeyboard_triggered()
 {
   keyboard.show();
@@ -46,4 +41,10 @@ void MainWindow::on_actionTone_Tester_triggered()
 void MainWindow::on_actionSfx_triggered()
 {
   sfx.show();
+}
+
+void MainWindow::on_actionTest_2_triggered()
+{
+  QString mode = QInputDialog::getText(this,"Mode","Mode");
+  muse.TonicTest(mode.toStdString());
 }

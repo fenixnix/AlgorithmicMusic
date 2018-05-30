@@ -5,10 +5,10 @@
 
 using namespace std;
 
-class NTune
+class NMelody
 {
 public:
-  NTune();
+  NMelody();
   void Random(int length);
   vector<int> Add(int cnt);
   vector<int> RandomSel();

@@ -2,7 +2,7 @@
 #define QMUSICINSTRUMENT_H
 
 #include "NQWavPlayer.h"
-#include "Chiptune/nmuse.h"
+#include "ACM/NTonic.h"
 #include "Chiptune/wavcontour.h"
 
 class QMusicInstrument
@@ -22,7 +22,7 @@ public:
 
 //private:
 
-  NMuse music;
+  NTonic music;
   WavContour contour;
   NChipTune chipTune;
   NQWavPlayer player;

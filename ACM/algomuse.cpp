@@ -24,41 +24,33 @@ AlgoMuse::AlgoMuse()
 {
     time_t t;
     srand ((unsigned) time (&t));
-    initAllMode();
 }
 
 void AlgoMuse::PlayWindChime()
 {
 #define BASENOTE 57
+int pentatonic[] = {0,3,5,7,10,12};
     midi.Open();
-    midi.tracks[0].Wait(48*2*4);	/* Handshake */
-    int pentatonic[] = { BASENOTE , BASENOTE +3 , BASENOTE + 5, BASENOTE +7 , BASENOTE +10, BASENOTE +12 };
-    int volume = 0x7f;
-    int note[8];
-    int j[8];
-    /* need as many channel arrays as layers */
-    int ins[] = {14,14,14,14,14,14,14,14};
-    midi.tracks[0].instrumentsSetup(ins);
+    midi.tracks[0].Wait(96);	/* Handshake */
+    midi.tracks[0].SetVolume(0x7f);
 
+    /* need as many channel arrays as layers */
+    midi.tracks[0].SetInstrument(0,14);
+
+    int note[8];
     for(int k = 0;k<8;k++){
         for (int i = 0; i < 7; ++i)
         {
-            note[i] = rand () % 6;
-            note[i] = (pentatonic[note[i]]);
-            j[i] = rand () % 8;
-
-            midi.tracks[0].SetChannel(j[i]);
-            midi.tracks[0].On(note[i], volume);
+            note[i] = (pentatonic[rand () % 6]+ BASENOTE);
+            midi.tracks[0].On(note[i]);
             midi.tracks[0].Wait(rand () % (600) + 1);
         }
         midi.tracks[0].Wait(200);
 
         for (int i = 0; i < 7; ++i){
-            midi.tracks[0].SetChannel(j[i]);
             midi.tracks[0].Off(note[i]);
         }
     }
-
     midi.Close();
 }
 
@@ -81,7 +73,7 @@ void AlgoMuse::PlayMozartDiceGame()
             for (int p = 0; p < PITCHES; ++p)
             {
                 for(int i = 0;i<3;i++){
-                    auto pitch= measure[m][j][i][p];
+                    auto pitch= mozart[m][j][i][p];
                     if(pitch!=-1){
                         midi.tracks[i].Play(pitch, tempo, 80);
                     }else{
@@ -101,7 +93,7 @@ void AlgoMuse::PlayMozartDiceGame()
         }
 //        midi.tracks[4].Play(measure[m][j][0][0]+7-5,tempo*2,0x30);
 //        midi.tracks[4].Play(measure[m][j][0][0]+4-5,tempo*2,0x30);
-        midi.tracks[4].Play(measure[m][j][0][0]+0-12,tempo*6,0x30);
+        midi.tracks[4].Play(mozart[m][j][0][0]+0-12,tempo*6,0x30);
     }
     midi.Close();
 }
@@ -111,9 +103,8 @@ void AlgoMuse::PlayMotivic()
     motivic.Test();
 }
 
-void AlgoMuse::ChordTest()
+void AlgoMuse::TonicTest(string mode)
 {
-    initAllMode();
     midi.Open();
     int tempo = 48;
 
@@ -124,8 +115,18 @@ void AlgoMuse::ChordTest()
     //midi.tracks[0].PlayTune(60);
 
     NMidiTrack *mainTrack = &midi.tracks[0];
+    mainTrack->SetTempo(24);
+    mainTrack->tonic.SetMode(mode);
 
+    for(int i = 0;i<15;i++){
+        mainTrack->Note(i);
+      }
 
+    for(int i = 15;i>-15;i--){
+        mainTrack->Note(i);
+      }
+
+/*
     mainTrack->RandomTune();
     mainTrack->PlayTune(0+60);
     mainTrack->Wait(12);
@@ -144,7 +145,7 @@ void AlgoMuse::ChordTest()
 
     midi.tracks[0].Wait(tempo*6);
 
-    NTonic tonic;
+    //NTonic tonic;
     midi.tracks[0].Play(70,tempo*2);
     midi.tracks[0].Play(71,tempo/2);
     midi.tracks[0].Play(70,tempo/2);
@@ -159,118 +160,10 @@ void AlgoMuse::ChordTest()
     midi.tracks[0].Wait(tempo*6);
 
 
-    //tonic.SetMode(0);
-    midi.tracks[0].Play(tempo*4,tonic.Note(0)-12);
-    midi.tracks[0].Play(tempo*4,tonic.Note(3)-12);
-    midi.tracks[0].Play(tempo*4,tonic.Note(4)-12);
-    midi.tracks[0].Play(tempo*4,tonic.Note(0)-12);
-
-
-    midi.tracks[0].Chord(tempo*4,tonic.Note(0-7));
-    midi.tracks[0].Chord(tempo*4,tonic.Note(3-7));
-    midi.tracks[0].Chord(tempo*4,tonic.Note(4-7),major,4);
-    midi.tracks[0].Chord(tempo*4,tonic.Note(0-7));
-
-
-    midi.tracks[0].Chord2(tempo*4,tonic.Note(0));
-
-    for(int i = 0;i<4;i++){
-        midi.tracks[0].Play(tempo/2,tonic.Note(i));
-    }
-
-
-    midi.tracks[0].Chord2(tempo*4,tonic.Note(-2));
-    for(int i = 0;i<4;i++){
-        midi.tracks[0].Play(tempo/2,tonic.Note(-2+i));
-    }
-
-    midi.tracks[0].Chord2(tempo*4,tonic.Note(3));
-    for(int i = 0;i<4;i++){
-        midi.tracks[0].Play(tempo/2,tonic.Note(3+i));
-    }
-
-    midi.tracks[0].Chord2(tempo*4,tonic.Note(4));
-    for(int i = 0;i<4;i++){
-        midi.tracks[0].Play(tempo/2,tonic.Note(4+i));
-    }
-
-    midi.tracks[0].Chord2(tempo*4,tonic.Note(0));
-
-    for(int i = 0;i<4;i++){
-        midi.tracks[0].Play(tempo/2,tonic.Note(i));
-    }
-
-    midi.tracks[0].Wait(tempo*6);
-
-    midi.tracks[0].Chord(tempo*4,tonic.Note(-2));
-    midi.tracks[0].Chord(tempo*4,tonic.Note(1));
-    midi.tracks[0].Chord(tempo*4,tonic.Note(-3));
-    midi.tracks[0].Chord(tempo*4,tonic.Note(0));
-
-    midi.tracks[0].Wait(tempo*6);
-
-    midi.tracks[0].Chord(tempo*4,tonic.Note(1),minor,4);
-    midi.tracks[0].Chord(tempo*4,tonic.Note(-3),mixolydian,4);
-    midi.tracks[0].Chord(tempo*4,tonic.Note(0),mixolydian,4);
-    midi.tracks[0].Chord(tempo*4,tonic.Note(-2),minor,4);
-
-    midi.tracks[0].Wait(tempo*6);
-
-    midi.tracks[0].Chord(tempo*4,tonic.Note(-3));
-    midi.tracks[0].Chord(tempo*4,tonic.Note(1));
-    midi.tracks[0].Chord(tempo*4,tonic.Note(-2));
-    midi.tracks[0].Chord(tempo*4,tonic.Note(0));
-
-    for(int i = 0;i<8;i++){
-        for(int j = 0;j<8;j++){
-            midi.tracks[0].Play(tempo/2,tonic.Note(i+j));
-        }
-    }
-    tonic.SetMode(MINOR);
-    for(int i = 0;i<8;i++){
-        for(int j = 0;j<8;j++){
-            midi.tracks[0].Play(tempo/2,tonic.Note(i+j));
-        }
-    }
-
-    //  for(int i = 0;i<8;i++){
-    //      midi.tracks[0].Play(tempo*4,0,ModeTune(i,mixolydian));
-    //      for(int j = 0;j<5;j++){
-    //          midi.tracks[0].Play(tempo,0,ModeTune((i+j)*2,major));
-    //        }
-    //      for(int j = 3;j>=0;j--){
-    //          midi.tracks[0].Play(tempo,0,ModeTune((i+j)*2,major));
-    //        }
-    //      midi.tracks[0].Chord(tempo,0,ModeTune(i,mixolydian),major,3);
-    //    }
-
-    //  for(int i = 0;i<8;i++){
-    //      midi.tracks[0].Chord(tempo,0,ModeTune(i,major),major,3);
-    //    }
-
-    //  for(int i = 0;i<8;i++){
-    //      midi.tracks[0].Chord(tempo*2,0,ModeTune(i,dorian),dorian,3);
-    //    }
-
-    //  for(int i = 0;i<8;i++){
-    //      midi.tracks[0].Chord(tempo*2,0,ModeTune(i,phrygian),phrygian,3);
-    //    }
-
-    //  for(int i = 0;i<8;i++){
-    //      midi.tracks[0].Chord(tempo*2,0,ModeTune(i,lydian),lydian,3);
-    //    }
-
-    //  for(int i = 0;i<8;i++){
-    //      midi.tracks[0].Chord(tempo*2,0,ModeTune(i,mixolydian),mixolydian,3);
-    //    }
 
     for(int i = 0;i<8;i++){
         midi.tracks[0].Chord(tempo,ModeTune(i,minor),minor,3);
     }
-
-    //  for(int i = 0;i<8;i++){
-    //      midi.tracks[0].Chord(tempo*2,0,ModeTune(i,locrian),locrian,3);
-    //    }
-
+    */
     midi.Close();
 }
