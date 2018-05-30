@@ -3,6 +3,7 @@
 NMidiTrack::NMidiTrack()
 {
     initAllMode();
+    tonic.SetMode(DORIAN);
     tunes = vector<int>{0,1,2,3,4,5,6,7};
     intervals = vector<int>{48,24,24,24,32,28,24,20};
     levels = vector<int>{40,50,60,70,80,90,100,110};
@@ -163,14 +164,14 @@ void NMidiTrack::Chord2(unsigned long l, int p, int v)
 
 void NMidiTrack::Beat(int p, unsigned long l, int v)
 {
-    Message(0,0x99,p);
-    Message(l,0x89,p);
+    Message(0,0x99,p,v);
+    Message(l,0x89,p,v);
 }
 
 void NMidiTrack::RandomTune()
 {
-    tunes = vector<int>{0,0,5,2,3};
-    intervals = vector<int>{72+48,48,48,48,72*2,28,24,20};
+    //tunes = vector<int>{0,5,2,3};
+    intervals = vector<int>{48,48,48,72*2,28,24,20};
     levels = vector<int>{40,50,60,70,80,90,100,110};
 }
 

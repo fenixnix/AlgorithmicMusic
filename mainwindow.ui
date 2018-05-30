@@ -6,12 +6,12 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>202</width>
+    <width>429</width>
     <height>120</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Nix Algorithmic Music</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -36,7 +36,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>202</width>
+     <width>429</width>
      <height>17</height>
     </rect>
    </property>
@@ -53,13 +53,36 @@
    </widget>
    <widget class="QMenu" name="menuChord">
     <property name="title">
-     <string>Chord</string>
+     <string>Harmony</string>
     </property>
     <addaction name="actionTest"/>
    </widget>
+   <widget class="QMenu" name="menuChipTune">
+    <property name="title">
+     <string>Tone</string>
+    </property>
+    <addaction name="actionChipTune"/>
+    <addaction name="actionSfx"/>
+    <addaction name="actionTone_Tester"/>
+   </widget>
+   <widget class="QMenu" name="menuMode">
+    <property name="title">
+     <string>Tonality</string>
+    </property>
+    <addaction name="actionMode"/>
+    <addaction name="actionKeyboard"/>
+   </widget>
+   <widget class="QMenu" name="menurhythm">
+    <property name="title">
+     <string>Rhythm</string>
+    </property>
+   </widget>
    <addaction name="menuFile"/>
-   <addaction name="menuMotivic"/>
+   <addaction name="menuChipTune"/>
+   <addaction name="menuMode"/>
    <addaction name="menuChord"/>
+   <addaction name="menurhythm"/>
+   <addaction name="menuMotivic"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
@@ -78,6 +101,31 @@
   <action name="actionTest">
    <property name="text">
     <string>Test</string>
+   </property>
+  </action>
+  <action name="actionChipTune">
+   <property name="text">
+    <string>ChipTune</string>
+   </property>
+  </action>
+  <action name="actionMode">
+   <property name="text">
+    <string>Mode</string>
+   </property>
+  </action>
+  <action name="actionSfx">
+   <property name="text">
+    <string>SFX</string>
+   </property>
+  </action>
+  <action name="actionKeyboard">
+   <property name="text">
+    <string>Keyboard</string>
+   </property>
+  </action>
+  <action name="actionTone_Tester">
+   <property name="text">
+    <string>Tone Tester</string>
    </property>
   </action>
  </widget>

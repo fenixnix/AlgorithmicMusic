@@ -32,3 +32,18 @@ void MainWindow::on_actionTest_triggered()
 {
   muse.ChordTest();
 }
+
+void MainWindow::on_actionKeyboard_triggered()
+{
+  keyboard.show();
+}
+
+void MainWindow::on_actionTone_Tester_triggered()
+{
+  toneTester.show();
+}
+
+void MainWindow::on_actionSfx_triggered()
+{
+  sfx.show();
+}

@@ -100,17 +100,17 @@ void NMotivicTune::m001Beginning()
 {
     midi.tracks[0].SetChannel(0);
     for(int i = 0;i<tune.base.size();i++){
-        midi.tracks[0].Play(tempo*4,tune.base[i] + MID_C,50);
+        midi.tracks[0].Play(tune.base[i] + MID_C,tempo*4,50);
     }
     midi.tracks[0].Wait(tempo*4);
     for(int i = 0;i<tune.base.size();i++){
-        midi.tracks[0].Play(tempo,tune.base[i] + MID_C,50);
+        midi.tracks[0].Play(tune.base[i] + MID_C,tempo,50);
     }
     for(int i = 0;i<tune.base.size();i++){
-        midi.tracks[0].Play(tempo/2,tune.base[i] + MID_C,50);
+        midi.tracks[0].Play(tune.base[i] + MID_C,tempo/2,50);
     }
     for(int i = 0;i<tune.base.size();i++){
-        midi.tracks[0].Play(tempo/4,tune.base[i] + MID_C,50);
+        midi.tracks[0].Play(tune.base[i] + MID_C,tempo/4,50);
     }
 }
 
@@ -121,8 +121,8 @@ void NMotivicTune::Test()
     int instruments[] = {73,46,61,48};
     midi.tracks[0].instrumentsSetup(instruments);
     midi.tracks[0].Wait(tempo);
-    //m001Beginning();
+    m001Beginning();
     //BeatTest();
-    m003Mod(0);
+    //m003Mod(0);
     midi.Close();
 }

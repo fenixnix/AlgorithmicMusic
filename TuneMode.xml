@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TuneMode>
+  <Ionian>
+    <Pitch type="Number">0,2,4,5,7,9,11</Pitch>
+  </Ionian>
+  <Dorian>
+    <Pitch type="Number">0,2,3,5,7,9,10</Pitch>
+  </Dorian>
+  <Phrygian>
+    <Pitch type="Number">0,1,3,5,7,8,10</Pitch>
+  </Phrygian>
+  <Lydian>
+    <Pitch type="Number">0,2,4,6,7,9,10</Pitch>
+  </Lydian>
+  <Mixolydian>
+    <Pitch type="Number">0,2,4,5,7,9,10</Pitch>
+  </Mixolydian>
+  <Aeolian>
+    <Pitch type="Number">0,2,3,5,6,8,11</Pitch>
+  </Aeolian>
+  <Locrian>
+    <Pitch type="Number">0,1,3,5,6,8,10</Pitch>
+  </Locrian>
+  <China7>
+    <Pitch type="Number">0,2,4,6,7,9,11</Pitch>
+  </China7>
+  <China>
+    <Pitch type="Number">0,2,4,7,9</Pitch>
+  </China>
+  <China2>
+    <Pitch type="Number">0,3,5,7,10</Pitch>
+  </China2>
+  <Yamato>
+    <Pitch type="Number">0,4,5,9,11</Pitch>
+  </Yamato>
+  <Yamato2>
+    <Pitch type="Number">0,4,5,7,11</Pitch>
+  </Yamato2>
+  <Gypsy>
+    <Pitch type="Number">0,3,6,7,8,10</Pitch>
+  </Gypsy>
+  <Orient>
+    <Pitch type="Number">0,1,4,5,6,9,10</Pitch>
+  </Orient>
+  <Arabic>
+    <Pitch type="Number">1,2,4,6,7,9,11</Pitch>
+  </Arabic>
+  <Arabic2>
+    <Pitch type="Number">0,1,4,5,7,8,10</Pitch>
+  </Arabic2>
+  <Flamenco>
+    <Pitch type="Number">0,1,4,6,7,8,10</Pitch>
+  </Flamenco>
+  <Hindu>
+    <Pitch type="Number">0,2,4,5,7,8,10</Pitch>
+  </Hindu>
+  <Hungarian>
+    <Pitch type="Number">0,3,4,6,7,9,10</Pitch>
+  </Hungarian>
+  <HungarianMinor>
+    <Pitch type="Number">0,2,3,6,7,8,11</Pitch>
+  </HungarianMinor>
+  <Russia>
+    <Pitch type="Number">0,2,4,5,6,7,8,9,10,11</Pitch>
+  </Russia>
+  <Napoli>
+    <Pitch type="Number">0,1,3,5,7,9,11</Pitch>
+  </Napoli>
+  <NapoliMinor>
+    <Pitch type="Number">0,1,3,5,7,8,11</Pitch>
+  </NapoliMinor>
+  <LydianDominant>
+    <Pitch type="Number">0,2,4,6,7,9,10</Pitch>
+  </LydianDominant>
+  <SuperLocrian>
+    <Pitch type="Number">0,1,3,4,6,8,10</Pitch>
+  </SuperLocrian>
+</TuneMode>

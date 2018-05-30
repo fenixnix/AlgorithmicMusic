@@ -15,7 +15,6 @@ public:
   AlgoMuse();
 
   void PlayWindChime();
-  void PlayGreekMusic();
   void PlayMozartDiceGame();
   void PlayMotivic();
   void ChordTest();

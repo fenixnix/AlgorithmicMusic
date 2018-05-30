@@ -62,11 +62,6 @@ void AlgoMuse::PlayWindChime()
     midi.Close();
 }
 
-void AlgoMuse::PlayGreekMusic()
-{
-
-}
-
 void AlgoMuse::PlayMozartDiceGame()
 {
     midi.Open(5);
@@ -88,23 +83,25 @@ void AlgoMuse::PlayMozartDiceGame()
                 for(int i = 0;i<3;i++){
                     auto pitch= measure[m][j][i][p];
                     if(pitch!=-1){
-                        midi.tracks[i].Play(tempo,pitch,80);
+                        midi.tracks[i].Play(pitch, tempo, 80);
                     }else{
                         midi.tracks[i].Wait(tempo);
                     }
                 }
                 if(p%6 == 0){
-                    midi.tracks[3].Beat(tempo,Bass_Drum);
+                    midi.tracks[3].Beat(Bass_Drum, tempo);
                 }else{
                     if(p%2 == 0){
-                        midi.tracks[3].Beat(tempo,Elec_Snare,0x40);
+                        midi.tracks[3].Beat(Elec_Snare, tempo, 0x40);
                     }else{
-                        midi.tracks[3].Beat(tempo,Closed_HH,0x40);
+                        midi.tracks[3].Beat(Closed_HH, tempo, 0x40);
                     }
                 }
             }
         }
-        midi.tracks[4].Play(tempo*6,measure[m][j][0][0],0x30);
+//        midi.tracks[4].Play(measure[m][j][0][0]+7-5,tempo*2,0x30);
+//        midi.tracks[4].Play(measure[m][j][0][0]+4-5,tempo*2,0x30);
+        midi.tracks[4].Play(measure[m][j][0][0]+0-12,tempo*6,0x30);
     }
     midi.Close();
 }
@@ -148,16 +145,16 @@ void AlgoMuse::ChordTest()
     midi.tracks[0].Wait(tempo*6);
 
     NTonic tonic;
-    midi.tracks[0].Play(tempo*2,70);
-    midi.tracks[0].Play(tempo/2,71);
-    midi.tracks[0].Play(tempo/2,70);
-    midi.tracks[0].Play(tempo/2,68);
+    midi.tracks[0].Play(70,tempo*2);
+    midi.tracks[0].Play(71,tempo/2);
+    midi.tracks[0].Play(70,tempo/2);
+    midi.tracks[0].Play(68,tempo/2);
 
-    midi.tracks[0].Play(tempo*2,70);
-    midi.tracks[0].Play(tempo,68);
-    midi.tracks[0].Play(tempo/2,70);
-    midi.tracks[0].Play(tempo/2,71);
-    midi.tracks[0].Play(tempo/2,73);
+    midi.tracks[0].Play(70,tempo*2);
+    midi.tracks[0].Play(68,tempo);
+    midi.tracks[0].Play(70,tempo/2);
+    midi.tracks[0].Play(71,tempo/2);
+    midi.tracks[0].Play(73,tempo/2);
 
     midi.tracks[0].Wait(tempo*6);
 
