@@ -25,34 +25,48 @@ void WavBase::randomNoise()
 
 float WavBase::wave(int type, float phase)
 {
-  float tmpSample = 0;
   switch(type)
     {
-    case 0: // square
-      if(phase<duty)
-        tmpSample=0.5f;
-      else
-        tmpSample=-0.5f;
-      break;
-    case 1: // sawtooth
-      tmpSample=1.0f-phase*2;
-      break;
-    case 2: // sine
-      tmpSample=(float)sin(phase*2*M_PI);
-      break;
-    case 3: // noise
-      int i = (int)(phase*(float)(32));
-      if(i>31){
-          i = 31;
-        }
-      tmpSample=noise_buffer[i];
-      break;
+    case 0: return Square(phase,duty);break;// square
+    case 1: return Triangle(phase,duty);break;// sawtooth
+    case 2: return Sine(phase);break;// sine
+    case 3: return Noise(phase);break;// noise
+    default: return 0;break;
     }
-  return tmpSample;
+  return 0;
 }
 
-void WavBase::DutyQuality()
+void WavBase::SetDuty(float d)
 {
-  if(duty>0.5f)duty = 0.5f;
-  if(duty<0.0f)duty = 0.0f;
+  if(d>0.5f)duty = 0.5f;
+  if(d<0)duty = 0;
+}
+
+float WavBase::Square(float phase, float duty)
+{
+  if(phase<duty)
+    return 1;
+  return -1;
+}
+
+float WavBase::Triangle(float phase, float duty)
+{
+  if(phase<duty){
+      return -1+2.0f*(phase/duty);
+    }
+  return 1-2.0f*((phase-duty)/(1-duty));
+}
+
+float WavBase::Sine(float phase)
+{
+  return (float)sin(phase*2.0f*M_PI);
+}
+
+float WavBase::Noise(float phase)
+{
+  int i = (int)(phase*(float)(32));
+  if(i>31){
+      i = 31;
+    }
+  return noise_buffer[i];
 }

@@ -49,7 +49,7 @@ void Sfx8Bit::Reset()
     fmaxperiod=100.0/(p_freq_limit*p_freq_limit+0.001);
     fslide=1.0-pow((double)p_freq_ramp, 3.0)*0.01;
     fdslide=-pow((double)p_freq_dramp, 3.0)*0.000001;
-    WavBase::duty=0.5f-p_duty*0.5f;
+    WavBase::SetDuty(0.5f-p_duty*0.5f);
     square_slide=-p_duty_ramp*0.00005f;
     if(p_arp_mod>=0.0f)
         arp_mod=1.0-pow((double)p_arp_mod, 2.0)*0.9;
@@ -208,8 +208,7 @@ void Sfx8Bit::SynthSample(vector<float> &data)
         }
         period=(int)rfperiod;
         if(period<8) period=8;
-        WavBase::duty+=square_slide;
-        WavBase::DutyQuality();
+        WavBase::SetDuty(WavBase::duty+square_slide);
 
         env_vol = envelope.Sampling(playing_sample);
 

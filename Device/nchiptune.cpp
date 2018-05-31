@@ -1,11 +1,12 @@
 #include "nchiptune.h"
+#include "Chiptune/nwavwriter.h"
 
 NChipTune::NChipTune()
 {
   Format.setSampleRate(22500);
   Format.setChannelCount(1);
   Format.setSampleSize(8);
-  Format.setSampleType(QAudioFormat::SignedInt);
+  Format.setSampleType(QAudioFormat::UnSignedInt);
   Format.setByteOrder(QAudioFormat::LittleEndian);
   Format.setCodec("audio/pcm");
 }
@@ -85,13 +86,14 @@ void NChipTune::generateData(QString type, int freq, WavContour contour)
     }
   auto data = contour.GetData(Format.sampleRate());
   buffer.clear();
-  for(int i = 0;i<data.size();i++){
-      float v = data[i];
-      char b = tmpBuffer[i];
-      char val = b*v;
-      //qDebug()<<"v:"<<v<<"*"<<b<<"*"<<val;
-      buffer.append(val);
-    }
+//  for(int i = 0;i<data.size();i++){
+//      float v = data[i];
+//      char b = tmpBuffer[i];
+//      char val = b*v;
+//      //qDebug()<<"v:"<<v<<"*"<<b<<"*"<<val;
+//      buffer.append(val);
+//    }
+  buffer.push_back(tmpBuffer);
 }
 
 void NChipTune::Pulse()
@@ -101,7 +103,7 @@ void NChipTune::Pulse()
   Period = Format.sampleRate()/Freq;
   int HiCnt = Period*Duty;
   int LoCnt = Period-HiCnt;
-  int Amp = CHAR_MAX*Volume;
+  int Amp = SCHAR_MAX*Volume;
   char HiVal = Amp;
   char LoVal = -Amp;
 
@@ -119,22 +121,20 @@ void NChipTune::Triangle()
 {
   Stop();
   buffer.clear();
+
+  rawBuffer.clear();
+
   Period = Format.sampleRate()/Freq;
-  int halfT = Period/2;
 
-  int Amp = CHAR_MAX*Volume;
-  int DAmp = Amp*2;
-  char HiVal = Amp;
-  char LoVal = -Amp;
+  int Amp = SCHAR_MAX*Volume;
 
-  for(int i = 0;i<halfT;i++){
-      char v = LoVal + i*DAmp/halfT;
+  for(int i = 0;i<Period;i++){
+      float phase = (float)i/Period;
+      char v = Amp*WavBase::Triangle(phase,Duty)+127;
+      rawBuffer.push_back(WavBase::Triangle(phase,Duty));
       buffer.append(v);
     }
-  for(int i = 0;i<halfT;i++){
-      char v = HiVal - i*DAmp/halfT;
-      buffer.append(v);
-    }
+  NWavWriter::Save("triangle.wav",rawBuffer);
 }
 
 void NChipTune::Triangle(int freq)
@@ -147,12 +147,18 @@ void NChipTune::Sine()
 {
   Stop();
   buffer.clear();
+
+  rawBuffer.clear();
+
   Period = Format.sampleRate()/Freq;
-  int Amp = CHAR_MAX*Volume;
+  int Amp = SCHAR_MAX*Volume;
   for(int i = 0;i<Period;i++){
-      char v = Amp*sin(M_PI*2*i/Period);
+      float phase = (float)i/Period;
+      char v = Amp*WavBase::Sine(phase)+127;
+      rawBuffer.push_back(WavBase::Sine(phase));
       buffer.append(v);
     }
+  NWavWriter::Save("sine.wav",rawBuffer);
 }
 
 void NChipTune::Sine(int freq)
@@ -166,13 +172,14 @@ void NChipTune::Noise()
   Stop();
   buffer.clear();
   Period = Format.sampleRate()/Freq;
-  int Amp = CHAR_MAX*Volume;
-  int DAmp = Amp*2;
+  int Amp = SCHAR_MAX*Volume;
 
   //Type1
       for(int j = 0;j<Freq;j++){
-          char v = qrand()%DAmp-Amp;
+          WavBase::randomNoise();
           for(int i = 0;i<Period;i++){
+              float phase = (float)i/Period;
+              char v = Amp*WavBase::Noise(phase)+127;
               buffer.append(v);
           }
       }

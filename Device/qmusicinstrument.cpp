@@ -24,7 +24,7 @@ void QMusicInstrument::Bass()
     contour.Push(0.032,0.5);
     contour.Push(0.032,0.4);
     contour.Push(0.042,0.0);
-    chipTune.generateData("Sine",25,contour);
+    chipTune.generateData("Noise",1000,contour);
     PlayChip();
 }
 
@@ -51,7 +51,7 @@ void QMusicInstrument::Tomtom()
 void QMusicInstrument::HighHat()
 {
     contour.TrapezoidaEnvelope(0.08f,0.03f,0.05f,0.2f);
-    chipTune.generateData("Noise",8000,contour);
+    chipTune.generateData("Noise",440,contour);
     PlayChip();
 }
 

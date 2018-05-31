@@ -6,7 +6,9 @@
 #include <QDebug>
 #include <qmath.h>
 #include "Chiptune/wavcontour.h"
-#include "Device//nchiptune.h"
+#include "Device/nchiptune.h"
+#include "Chiptune/wavbase.h"
+#include "Chiptune/nwavwriter.h"
 
 using namespace std;
 
@@ -27,12 +29,13 @@ public:
     QString Print();
 
     int Period = 1;
-    float Duty = 0.25f;//0~0.5
+    float Duty = 0.125f;//0~0.5
     int Freq = 440;//200~10000
-    float Volume = 0.3f;//0~1
+    float Volume = 0.5f;//0~1
 
     QAudioFormat Format;
     QByteArray buffer;
+    vector<float> rawBuffer;
 private:
     void Pulse();//12.5% 25% 50%
     void Pulse(int freq);
