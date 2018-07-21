@@ -8,7 +8,7 @@
 #include <fstream>
 #include <ostream>
 
-#include "NTonic.h"
+#include "ntonic.h"
 #include "percussionsound.h"
 
 #define WAITNOTE 0x88

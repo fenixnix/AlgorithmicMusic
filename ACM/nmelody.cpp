@@ -1,4 +1,4 @@
-#include "NMelody.h"
+#include "nmelody.h"
 #include <iostream>
 #include <time.h>
 

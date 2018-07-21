@@ -2,7 +2,7 @@
 #define ALGOMUSE_H
 
 #include <stdlib.h>
-#include <time.h>
+//#include <time.h>
 #include <stdio.h>
 #include <iostream>
 #include "ntrack.h"
@@ -13,17 +13,18 @@ using namespace std;
 class AlgoMuse
 {
 public:
-  AlgoMuse();
+    AlgoMuse();
 
-  void PlayWindChime();
-  void PlayMozartDiceGame();
-  void PlayMotivic();
+//    void PlayWindChime();
+//    void PlayMozartDiceGame();
+//    void PlayMotivic();
 
-  void TonicTest(string mode);
+//    void TonicTest(string mode);
+
 private:
-  NMidi midi;
-  NMotivicTune motivic;
-  NTrack track;
+    NMidi midi;
+    NMotivicTune motivic;
+    NTrack track;
 };
 
 #endif // ALGOMUSE_H

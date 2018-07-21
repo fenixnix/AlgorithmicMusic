@@ -28,12 +28,11 @@ SOURCES += \
         mainwindow.cpp \
     ACM/algomuse.cpp \
     ACM/nmotivictune.cpp \
-    ACM/nMidi.cpp \
-    ACM/nMidiTrack.cpp \
-    ACM/algomuse.cpp \
-    ACM/nMidi.cpp \
     ACM/nmiditrack.cpp \
-    ACM/nmotivictune.cpp \
+    ACM/ntrack.cpp \
+    ACM/ntonic.cpp \
+    ACM/nmelody.cpp \
+    ACM/nmidi.cpp \
     Device/nchiptune.cpp \
     Device/NQWavplayer.cpp \
     Device/qmusicinstrument.cpp \
@@ -45,11 +44,8 @@ SOURCES += \
     Chiptune/wavfilter.cpp \
     dialogmusicinstrumenttest.cpp \
     formkeyboard.cpp \
-    dialogsfx.cpp \
-    ACM/NTrack.cpp \
-    ACM/NTonic.cpp \
-    ACM/NTonic.cpp \
-    ACM/NMelody.cpp
+    dialogsfx.cpp
+
 
 HEADERS += \
         mainwindow.h \
@@ -58,15 +54,12 @@ HEADERS += \
     ACM/mozartdicetable.h \
     ACM/nmotivictune.h \
     ACM/percussionsound.h \
-    ACM/nMidi.h \
-    ACM/nMidiTrack.h \
-    ACM/algomuse.h \
-    ACM/mozartdicetable.h \
-    ACM/nMidi.h \
-    ACM/nMidiTrack.h \
-    ACM/nmotivictune.h \
-    ACM/percussionsound.h \
     ACM/pitchdefine.h \
+    ACM/nmidi.h \
+    ACM/nmelody.h \
+    ACM/ntrack.h \
+    ACM/nmiditrack.h \
+    ACM/ntonic.h \
     Device/nchiptune.h \
     Device/NQWavPlayer.h \
     Device/qmusicinstrument.h \
@@ -78,11 +71,8 @@ HEADERS += \
     Chiptune/wavfilter.h \
     dialogmusicinstrumenttest.h \
     formkeyboard.h \
-    dialogsfx.h \
-    ACM/NTrack.h \
-    ACM/NTonic.h \
-    ACM/NTonic.h \
-    ACM/NMelody.h
+    dialogsfx.h
+
 
 FORMS += \
         mainwindow.ui \
@@ -94,4 +84,4 @@ RESOURCES += \
     resource.qrc
 
 
-include("QMidi/QMidi.pri")
+#include("QMidi/QMidi.pri")

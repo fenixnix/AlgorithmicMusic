@@ -1,4 +1,4 @@
-#include "nMidi.h"
+#include "nmidi.h"
 
 using namespace std;
 

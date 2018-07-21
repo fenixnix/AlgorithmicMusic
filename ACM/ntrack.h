@@ -5,7 +5,7 @@
 #include <string>
 #include <sstream>
 
-#include "nTonic.h"
+#include "ntonic.h"
 #include "percussionsound.h"
 
 #define WAITNOTE 0x88

@@ -1,7 +1,7 @@
 #ifndef NMIDIAUTHER_H
 #define NMIDIAUTHER_H
 
-#include "nMidiTrack.h"
+#include "nmiditrack.h"
 
 class NMidi
 {

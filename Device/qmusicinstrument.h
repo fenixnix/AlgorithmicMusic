@@ -2,7 +2,7 @@
 #define QMUSICINSTRUMENT_H
 
 #include "NQWavPlayer.h"
-#include "ACM/NTonic.h"
+#include "ACM/ntonic.h"
 #include "Chiptune/wavcontour.h"
 
 class QMusicInstrument

@@ -1,8 +1,8 @@
 #ifndef NMOTIVICTUNE_H
 #define NMOTIVICTUNE_H
 
-#include "NMelody.h"
-#include "nMidi.h"
+#include "nmelody.h"
+#include "nmidi.h"
 
 class NMotivicTune
 {

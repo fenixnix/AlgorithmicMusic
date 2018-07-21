@@ -1,4 +1,4 @@
-#include "NTonic.h"
+#include "ntonic.h"
 #include "qmath.h"
 #include "QDebug"
 #include <QDomDocument>

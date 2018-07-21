@@ -1,4 +1,4 @@
-#include "nMidiTrack.h"
+#include "nmiditrack.h"
 
 NMidiTrack::NMidiTrack()
 {
@@ -17,14 +17,14 @@ NMidiTrack::NMidiTrack(int channel)
 void NMidiTrack::Open()
 {
     //track header
-    char buff[] = {0,0xf0,5,0x7e,0x7f,9,1,0xf7};
+    char buff[] = {0,(char)0xf0,5,(char)0x7e,(char)0x7f,9,1,(char)0xf7};
     data.write(buff,sizeof(buff));
 }
 
 void NMidiTrack::Close()
 {
     //track tail
-    char buff[] = { 0, 0xff, 0x2f, 0};
+    char buff[] = { 0, (char)0xff, (char)0x2f, 0};
     data.write(buff,4);
 }
 
@@ -59,7 +59,7 @@ void NMidiTrack::instrumentsSetup(int program[])
         }
 }
 
-#include "nMidi.h"
+#include "nmidi.h"
 void NMidiTrack::Message(unsigned long l,int channel, int p, int v)
 {
     unsigned long number;
