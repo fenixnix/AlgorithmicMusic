@@ -15,11 +15,11 @@ class AlgoMuse
 public:
     AlgoMuse();
 
-//    void PlayWindChime();
-//    void PlayMozartDiceGame();
-//    void PlayMotivic();
+    void PlayWindChime();
+    void PlayMozartDiceGame();
+    void PlayMotivic();
 
-//    void TonicTest(string mode);
+    void TonicTest(string mode);
 
 private:
     NMidi midi;

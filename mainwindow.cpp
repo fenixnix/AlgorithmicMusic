@@ -15,17 +15,17 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_btnPlay3_clicked()
 {
-  //muse.PlayWindChime();
+  muse.PlayWindChime();
 }
 
 void MainWindow::on_btnMozart_clicked()
 {
-  //muse.PlayMozartDiceGame();
+  muse.PlayMozartDiceGame();
 }
 
 void MainWindow::on_actionbeginning_triggered()
 {
-  //muse.PlayMotivic();
+  muse.PlayMotivic();
 }
 
 void MainWindow::on_actionKeyboard_triggered()
@@ -46,5 +46,5 @@ void MainWindow::on_actionSfx_triggered()
 void MainWindow::on_actionTest_2_triggered()
 {
   QString mode = QInputDialog::getText(this,"Mode","Mode");
-  //muse.TonicTest(mode.toStdString());
+  muse.TonicTest(mode.toStdString());
 }
